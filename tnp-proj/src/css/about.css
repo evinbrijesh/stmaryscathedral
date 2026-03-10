@@ -1,104 +1,268 @@
-.about-body {
-  padding-top: 2rem;
-  font-weight: 700;
-  background-color: #f4f1ee; /* Earthy Sand */
-  color: #3e2c23; /* Deep Brown */
-  font-family: 'Segoe UI', sans-serif;
-  font-size: 20px;
-  margin: 0;
-  padding: 0;
-}
-
-.about-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: center;
-  padding: 3rem;
-  background-color: #f4f1ee;
-  gap: 2rem;
+/* =========================================
+   BASE STYLES
+========================================= */
+.about-page-wrapper {
+  background-color: #f8fafc;
+  /* Crisp, clean modern background */
   min-height: 100vh;
+  font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #334155;
 }
 
-.about-text {
-  flex: 1 1 50%;
+/* =========================================
+   1. HERO SECTION (Intro + Image)
+========================================= */
+.about-hero-section {
+  padding: 80px 5%;
+  background: white;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.about-hero-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1280px;
+  margin: 0 auto;
+  gap: 60px;
+}
+
+.about-hero-text {
+  flex: 1;
   max-width: 600px;
 }
 
-.about-text h2 {
-  font-size: 2rem;
-  margin-bottom: 1rem;
-  color: #4f6f52; /* Forest Green */
+.about-hero-text h2 {
+  font-size: 2.8rem;
+  color: #0f172a;
+  margin-bottom: 10px;
+  font-weight: 700;
+  line-height: 1.2;
 }
 
-.about-text p {
-  font-size: 1.25rem;
-  color: #3e2c23;
+.hero-divider {
+  width: 80px;
+  height: 4px;
+  background-color: #cb9b51;
+  /* Elegant gold/bronze accent */
+  margin-bottom: 25px;
+  border-radius: 2px;
+}
+
+.about-hero-text p {
+  font-size: 1.1rem;
   line-height: 1.8;
-  margin-bottom: 1rem;
+  color: #475569;
+  margin-bottom: 20px;
 }
 
-.about-image {
-  flex: 1 1 40%;
-  max-width: 500px;
+.about-hero-text .hero-highlight {
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #334155;
+  border-left: 4px solid #cb9b51;
+  padding-left: 15px;
+  margin-top: 30px;
+  font-style: italic;
 }
 
-.about-image img {
+.about-hero-image {
+  flex: 1;
+  max-width: 550px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+.about-hero-image img {
   width: 100%;
-  height: auto;
-  border-radius: 10px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.1);
+  position: relative;
+  z-index: 2;
+  object-fit: cover;
 }
 
-/* Responsive Design for Mobile */
-@media (max-width: 768px) {
-  .about-container {
+/* Decorative background block behind image */
+.image-accent-border {
+  position: absolute;
+  top: 20px;
+  right: -20px;
+  bottom: -20px;
+  left: 30px;
+  border: 3px solid #e7d8c9;
+  border-radius: 20px;
+  z-index: 1;
+}
+
+/* =========================================
+   2. WARDS SECTION (Grid Layout)
+========================================= */
+.about-wards-section {
+  padding: 80px 5%;
+  background-color: #f8fafc;
+}
+
+.wards-container {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.wards-header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.wards-header h2 {
+  font-size: 2.5rem;
+  color: #0f172a;
+  margin-bottom: 15px;
+  font-weight: 700;
+}
+
+.wards-header p {
+  font-size: 1.1rem;
+  color: #64748b;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* modern CSS Grid for the Wards! */
+.wards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 30px;
+}
+
+.ward-card {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+  padding: 25px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid #f1f5f9;
+}
+
+.ward-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.08);
+}
+
+.ward-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #f1f5f9;
+}
+
+.ward-card-header h3 {
+  font-size: 1.4rem;
+  color: #1e293b;
+  font-weight: 600;
+  margin: 0;
+}
+
+.ward-count {
+  background: #e7d8c9;
+  color: #4a3e35;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.ward-modern-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.ward-modern-table th {
+  text-align: left;
+  padding: 8px 10px;
+  color: #94a3b8;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 600;
+}
+
+.ward-modern-table td {
+  padding: 12px 10px;
+  border-bottom: 1px solid #f1f5f9;
+  color: #475569;
+}
+
+.ward-modern-table tr:last-child td {
+  border-bottom: none;
+}
+
+.unit-number {
+  font-weight: 600;
+  color: #cb9b51 !important;
+  width: 80px;
+}
+
+.unit-name {
+  font-weight: 500;
+}
+
+.ward-modern-table tbody tr:hover td {
+  background-color: #f8fafc;
+  border-radius: 4px;
+}
+
+/* =========================================
+   RESPONSIVE DESIGN
+========================================= */
+@media (max-width: 992px) {
+  .about-hero-content {
     flex-direction: column;
-    align-items: flex-start;
-    padding: 2rem 1rem;
+    text-align: center;
   }
 
-  .about-text, .about-image {
-    flex: 1 1 100%;
+  .about-hero-text {
     max-width: 100%;
   }
 
-  .about-text p {
-    font-size: 1.2rem;
-    line-height: 1.8;
+  .hero-divider {
+    margin: 0 auto 25px auto;
   }
 
-  .about-text h2 {
-    font-size: 1.8rem;
+  .about-hero-text .hero-highlight {
+    border-left: none;
+    border-top: 4px solid #cb9b51;
+    padding-left: 0;
+    padding-top: 20px;
+    margin-top: 20px;
   }
-  /* --- Add these styles for the ward table --- */
 
-.ward-table {
-  width: 100%;
-  border-collapse: collapse; /* Gives it clean lines */
-  margin-top: 20px;
-  font-size: 0.95rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  .about-hero-image {
+    max-width: 100%;
+    margin-top: 30px;
+  }
+
+  .image-accent-border {
+    right: 15px;
+    left: 15px;
+  }
 }
 
-.ward-table th,
-.ward-table td {
-  border: 1px solid #ddd;
-  padding: 10px 12px;
-  text-align: left;
-}
+@media (max-width: 768px) {
+  .about-hero-section {
+    padding: 50px 5%;
+  }
 
-.ward-table th {
-  background-color: #f4f4f4; /* Light gray header */
-  font-weight: bold;
-  color: #333;
-}
+  .about-hero-text h2 {
+    font-size: 2.2rem;
+  }
 
-.ward-table tbody tr:nth-child(even) {
-  background-color: #f9f9f9; /* Adds zebra striping for readability */
-}
+  .wards-header h2 {
+    font-size: 2rem;
+  }
 
-.ward-table tbody tr:hover {
-  background-color: #f1f1f1; /* Highlight on hover */
-}
+  .wards-grid {
+    grid-template-columns: 1fr;
+  }
 }

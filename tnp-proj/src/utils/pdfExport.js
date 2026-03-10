@@ -198,128 +198,32 @@ export function generateDeathCertificatePdf(record) {
 
   let y = 55;
   const labelX = 25;
-  const valueX = 80;
-  const labelWidth = 50;
+  const valueX = 95;
+  const labelWidth = 65;
   const valueWidth = pageWidth - valueX - 20;
   const lineHeight = 6;
 
-  const regNo = record.sl_no || record.reg_no || record._id || "";
-
-  y += drawFieldRow(doc, {
-    label: "Reg. No.:",
-    value: regNo,
-    y,
-    labelX,
-    valueX,
-    labelWidth,
-    valueWidth,
-    lineHeight,
-  }) + 2;
-
-  y += drawFieldRow(doc, {
-    label: "Name:",
-    value: record.name,
-    y,
-    labelX,
-    valueX,
-    labelWidth,
-    valueWidth,
-    lineHeight,
-  }) + 2;
-
-  y += drawFieldRow(doc, {
-    label: "Age:",
-    value: record.age ? `${record.age} years` : "",
-    y,
-    labelX,
-    valueX,
-    labelWidth,
-    valueWidth,
-    lineHeight,
-  }) + 2;
-
-  y += drawFieldRow(doc, {
-    label: "House Name:",
-    value: record.house_name,
-    y,
-    labelX,
-    valueX,
-    labelWidth,
-    valueWidth,
-    lineHeight,
-  }) + 2;
-
-  y += drawFieldRow(doc, {
-    label: "Address:",
-    value: record.address_place,
-    y,
-    labelX,
-    valueX,
-    labelWidth,
-    valueWidth,
-    lineHeight,
-  }) + 4;
-
+  const regNo = record.reg_no || "";
   const formatDate = (d) =>
     d ? new Date(d).toLocaleDateString("en-GB") : "";
 
-  y += drawFieldRow(doc, {
-    label: "Husband's / Father's Name:",
-    value: record.father_husband_name,
-    y,
-    labelX,
-    valueX,
-    labelWidth,
-    valueWidth,
-    lineHeight,
-  }) + 2;
+  const field = (label, value) => {
+    y += drawFieldRow(doc, { label, value, y, labelX, valueX, labelWidth, valueWidth, lineHeight }) + 2;
+  };
 
-  y += drawFieldRow(doc, {
-    label: "Date of Demise:",
-    value: formatDate(record.death_date),
-    y,
-    labelX,
-    valueX,
-    labelWidth,
-    valueWidth,
-    lineHeight,
-  }) + 2;
+  field("Reg. No.:", regNo);
+  field("Name:", record.name);
+  field("Age:", record.age ? `${record.age} years` : "");
+  field("House Name:", record.house_name);
+  field("Address:", record.address_place);
+  field("Husband's / Father's Name:", record.father_husband_name);
+  field("Date of Demise:", formatDate(record.death_date));
+  field("Cause of Death:", record.cause_of_death);
+  field("Date of Funeral:", formatDate(record.burial_date));
+  field("Funeral Conducted by:", record.conducted_by);
+  y += 8;
 
-  y += drawFieldRow(doc, {
-    label: "Cause of Death:",
-    value: record.cause_of_death,
-    y,
-    labelX,
-    valueX,
-    labelWidth,
-    valueWidth,
-    lineHeight,
-  }) + 2;
-
-  y += drawFieldRow(doc, {
-    label: "Date of Funeral:",
-    value: formatDate(record.burial_date),
-    y,
-    labelX,
-    valueX,
-    labelWidth,
-    valueWidth,
-    lineHeight,
-  }) + 2;
-
-  y += drawFieldRow(doc, {
-    label: "Funeral Conducted by:",
-    value: record.conducted_by,
-    y,
-    labelX,
-    valueX,
-    labelWidth,
-    valueWidth,
-    lineHeight,
-  }) + 10;
-
-  const certText =
-    "Certified that the above information is the true extract taken from the records maintained at the Church.";
+  const certText = "Certified that the above information is the true extract taken from the records maintained at the Church.";
   doc.setFont("helvetica", "normal");
   const lines = doc.splitTextToSize(certText, pageWidth - 40);
   doc.text(lines, 20, y);
@@ -327,7 +231,6 @@ export function generateDeathCertificatePdf(record) {
 
   const today = new Date().toLocaleDateString("en-GB");
   doc.text(`Date: ${today}`, 20, y);
-
   doc.text("Vicar", pageWidth - 40, y + 20);
 
   doc.save(`death_certificate_${regNo || record.name || "record"}.pdf`);
@@ -338,138 +241,36 @@ export function generateBaptismCertificatePdf(record) {
 
   let y = 55;
   const labelX = 25;
-  const valueX = 80;
-  const labelWidth = 55;
+  const valueX = 115;
+  const labelWidth = 85;
   const valueWidth = pageWidth - valueX - 20;
   const lineHeight = 6;
 
-  const regNo = record.certificate_number || record.sl_no || record._id || "";
+  const regNo = record.reg_no || "";
   const formatDate = (d) =>
     d ? new Date(d).toLocaleDateString("en-GB") : "";
 
-  y += drawFieldRow(doc, {
-    label: "Reg. / Cert. No.:",
-    value: regNo,
-    y,
-    labelX,
-    valueX,
-    labelWidth,
-    valueWidth,
-    lineHeight,
-  }) + 2;
+  const field = (label, value) => {
+    y += drawFieldRow(doc, { label, value, y, labelX, valueX, labelWidth, valueWidth, lineHeight }) + 2;
+  };
 
-  y += drawFieldRow(doc, {
-    label: "Name:",
-    value: record.member_name,
-    y,
-    labelX,
-    valueX,
-    labelWidth,
-    valueWidth,
-    lineHeight,
-  }) + 2;
+  // Certificate order (matching physical certificate)
+  field("Reg. No.:", regNo);
+  field("Baptism Name of Child:", record.bapt_name);
+  field("Name of Child (Official):", record.member_name);
+  field("Address:", record.address);
+  field("Gender:", record.gender);
+  field("Father's Name:", record.father_name);
+  field("Mother's Name:", record.mother_name);
+  field("Date of Birth:", formatDate(record.member_dob));
+  field("Date of Baptism:", formatDate(record.date_of_baptism));
+  field("Godfather/Godmother:", record.godparent_name);
+  field("Address of Godparent:", record.godparent_house_name);
+  field("Church where Baptized:", record.church_where_baptised);
+  field("Baptised By:", record.baptised_by);
+  y += 8;
 
-  y += drawFieldRow(doc, {
-    label: "Baptism Name:",
-    value: record.bapt_name,
-    y,
-    labelX,
-    valueX,
-    labelWidth,
-    valueWidth,
-    lineHeight,
-  }) + 2;
-
-  y += drawFieldRow(doc, {
-    label: "Gender:",
-    value: record.gender,
-    y,
-    labelX,
-    valueX,
-    labelWidth,
-    valueWidth,
-    lineHeight,
-  }) + 2;
-
-  y += drawFieldRow(doc, {
-    label: "Date of Birth:",
-    value: formatDate(record.member_dob),
-    y,
-    labelX,
-    valueX,
-    labelWidth,
-    valueWidth,
-    lineHeight,
-  }) + 2;
-
-  y += drawFieldRow(doc, {
-    label: "Family Name:",
-    value: record.family_name,
-    y,
-    labelX,
-    valueX,
-    labelWidth,
-    valueWidth,
-    lineHeight,
-  }) + 2;
-
-  y += drawFieldRow(doc, {
-    label: "Head of Family:",
-    value: record.hof,
-    y,
-    labelX,
-    valueX,
-    labelWidth,
-    valueWidth,
-    lineHeight,
-  }) + 2;
-
-  y += drawFieldRow(doc, {
-    label: "Place of Baptism:",
-    value: record.place_of_baptism,
-    y,
-    labelX,
-    valueX,
-    labelWidth,
-    valueWidth,
-    lineHeight,
-  }) + 2;
-
-  y += drawFieldRow(doc, {
-    label: "Church Where Baptised:",
-    value: record.church_where_baptised,
-    y,
-    labelX,
-    valueX,
-    labelWidth,
-    valueWidth,
-    lineHeight,
-  }) + 2;
-
-  y += drawFieldRow(doc, {
-    label: "Godparent Name:",
-    value: record.godparent_name,
-    y,
-    labelX,
-    valueX,
-    labelWidth,
-    valueWidth,
-    lineHeight,
-  }) + 2;
-
-  y += drawFieldRow(doc, {
-    label: "Godparent House:",
-    value: record.godparent_house_name,
-    y,
-    labelX,
-    valueX,
-    labelWidth,
-    valueWidth,
-    lineHeight,
-  }) + 10;
-
-  const certText =
-    "Certified that the above information is the true extract taken from the baptism register maintained at the Church.";
+  const certText = "Certified that the above information is the true extract taken from the baptism register maintained at the Church.";
   doc.setFont("helvetica", "normal");
   const lines = doc.splitTextToSize(certText, pageWidth - 40);
   doc.text(lines, 20, y);
@@ -477,7 +278,6 @@ export function generateBaptismCertificatePdf(record) {
 
   const today = new Date().toLocaleDateString("en-GB");
   doc.text(`Date: ${today}`, 20, y);
-
   doc.text("Vicar", pageWidth - 40, y + 20);
 
   doc.save(`baptism_certificate_${regNo || record.member_name || "record"}.pdf`);
@@ -488,72 +288,61 @@ export function generateMarriageCertificatePdf(record) {
 
   let y = 55;
   const labelX = 25;
-  const valueX = 80;
-  const labelWidth = 55;
+  const valueX = 95;
+  const labelWidth = 65;
   const valueWidth = pageWidth - valueX - 20;
   const lineHeight = 6;
 
-  const regNo = record.marriage_id || record._id || "";
+  const regNo = record.reg_no || "";
   const formatDate = (d) =>
     d ? new Date(d).toLocaleDateString("en-GB") : "";
 
-  y += drawFieldRow(doc, {
-    label: "Reg. No.:",
-    value: regNo,
-    y,
-    labelX,
-    valueX,
-    labelWidth,
-    valueWidth,
-    lineHeight,
-  }) + 2;
+  const field = (label, value) => {
+    y += drawFieldRow(doc, { label, value, y, labelX, valueX, labelWidth, valueWidth, lineHeight }) + 2;
+  };
 
-  y += drawFieldRow(doc, {
-    label: "Groom:",
-    value: record.spouse1_name,
-    y,
-    labelX,
-    valueX,
-    labelWidth,
-    valueWidth,
-    lineHeight,
-  }) + 2;
+  field("Reg. No.:", regNo);
+  y += 2;
 
-  y += drawFieldRow(doc, {
-    label: "Bride:",
-    value: record.spouse2_name,
-    y,
-    labelX,
-    valueX,
-    labelWidth,
-    valueWidth,
-    lineHeight,
-  }) + 2;
+  // ---- Groom Section ----
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(13);
+  doc.text("Groom", labelX, y);
+  y += 8;
+  doc.setFontSize(11);
 
-  y += drawFieldRow(doc, {
-    label: "Date of Marriage:",
-    value: formatDate(record.date),
-    y,
-    labelX,
-    valueX,
-    labelWidth,
-    valueWidth,
-    lineHeight,
-  }) + 2;
+  field("Name:", record.spouse1_name);
+  field("Address:", record.spouse1_address);
+  field("City & District:", record.spouse1_city_district);
+  field("State & Country:", record.spouse1_state_country);
+  field("Father's Name:", record.spouse1_father_name);
+  field("Mother's Name:", record.spouse1_mother_name);
+  field("Name of Parish:", record.spouse1_home_parish);
+  y += 4;
 
-  y += drawFieldRow(doc, {
-    label: "Place of Marriage:",
-    value: record.place,
-    y,
-    labelX,
-    valueX,
-    labelWidth,
-    valueWidth,
-    lineHeight,
-  }) + 10;
+  // ---- Bride Section ----
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(13);
+  doc.text("Bride", labelX, y);
+  y += 8;
+  doc.setFontSize(11);
 
-  const certText =
-    "Certified that the above marriage was solemnised according to the rites of the Church and is a true extract taken from the marriage register maintained at the Church.";
+  field("Name:", record.spouse2_name);
+  field("Address:", record.spouse2_address);
+  field("City & District:", record.spouse2_city_district);
+  field("State & Country:", record.spouse2_state_country);
+  field("Father's Name:", record.spouse2_father_name);
+  field("Mother's Name:", record.spouse2_mother_name);
+  field("Name of Parish:", record.spouse2_home_parish);
+  y += 4;
+
+  // ---- Marriage Details ----
+  field("Date of Marriage:", formatDate(record.date));
+  field("Place of Marriage:", record.place);
+  field("Solemnized By:", record.solemnized_by);
+  y += 8;
+
+  const certText = "Certified that the above marriage was solemnised according to the rites of the Church and is a true extract taken from the marriage register maintained at the Church.";
   doc.setFont("helvetica", "normal");
   const lines = doc.splitTextToSize(certText, pageWidth - 40);
   doc.text(lines, 20, y);
@@ -561,8 +350,8 @@ export function generateMarriageCertificatePdf(record) {
 
   const today = new Date().toLocaleDateString("en-GB");
   doc.text(`Date: ${today}`, 20, y);
-
   doc.text("Vicar", pageWidth - 40, y + 20);
 
   doc.save(`marriage_certificate_${regNo || "record"}.pdf`);
 }
+

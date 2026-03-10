@@ -76,26 +76,31 @@ const AddFamily = () => {
 
   // ✅ Handle change
   const handleChange = (e) => {
-
     const { name, value } = e.target;
 
     if (name === "ward_number") {
-
       setForm({
         ...form,
         ward_number: value,
-        family_unit: ""
+        family_unit: "",
+        family_number: "" // Reset family number when block changes
       });
+    } else if (name === "family_unit") {
+      // Auto-generate family number prefix
+      const blockNum = form.ward_number ? form.ward_number.replace("Block ", "") : "";
+      const unitNum = value ? value.padStart(2, "0") : "";
 
+      setForm({
+        ...form,
+        family_unit: value,
+        family_number: blockNum && unitNum ? `${blockNum}${unitNum}` : ""
+      });
     } else {
-
       setForm({
         ...form,
         [name]: value
       });
-
     }
-
   };
 
 
@@ -106,8 +111,9 @@ const AddFamily = () => {
 
     try {
 
+      const API = import.meta.env.VITE_API_URL;
       await axios.post(
-        "https://stmaryscathedral.onrender.com/api/families",
+        `${API}/api/families`,
         form
       );
 

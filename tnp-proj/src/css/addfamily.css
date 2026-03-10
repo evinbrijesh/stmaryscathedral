@@ -1,218 +1,315 @@
-/* ============================= */
-/* Cream & Brown Theme - AddFamily */
-/* ============================= */
-
-
-/* Page background */
-
-body {
-  background-color: #f5efe6;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-}
-
-
+/* ══════════════════════════════════════════════
+   ADD FAMILY / DEATH ADD — Shared Form Styles
+   ══════════════════════════════════════════════ */
 
 /* Container */
-
 .container {
-
-  width: 100%;
-  max-width: 520px;
-
-  margin: 50px auto;
-
-  padding: 30px;
-
-  background-color: #fffaf3;
-
-  border-radius: 10px;
-
-  box-shadow: 0 4px 15px rgba(101, 67, 33, 0.15);
-
-  border: 1px solid #e6d3b3;
-
+  max-width: 620px;
+  margin: 32px auto;
+  padding: 32px;
+  background: var(--cream-light);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--cream-dark);
+  font-family: var(--font-family);
+  animation: fadeIn 0.4s var(--ease);
 }
 
-
-
-/* Form */
-
-.register-form {
-  display: flex;
-  flex-direction: column;
+/* Form title */
+.register-form h2 {
+  text-align: center;
+  margin-bottom: 24px;
+  color: var(--brown-800);
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
 }
 
-
-
-/* Input group */
-
+/* Input Group Wrapper */
 .input-group {
-
   position: relative;
-
-  margin-bottom: 22px;
-
+  margin-top: 10px;
+  margin-bottom: 24px;
 }
 
-
-
-/* Inputs and dropdowns */
-
-.input-group input,
-.input-group select {
-
-  width: 100%;
-
-  padding: 14px 12px;
-
-  font-size: 16px;
-
-  border-radius: 6px;
-
-  border: 1px solid #c8a97e;
-
-  background-color: #fffdf8;
-
-  color: #5a3e2b;
-
-  outline: none;
-
-  box-sizing: border-box;
-
-  transition: all 0.2s ease;
-
+/* Suggestions dropdown */
+.suggestions {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  background: white;
+  border: 1.5px solid var(--brown-100);
+  border-radius: var(--radius-md);
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 220px;
+  overflow-y: auto;
+  z-index: 1000;
+  box-shadow: var(--shadow-md);
 }
 
-
-
-/* Dropdown specific fixes */
-
-.input-group select {
-
-  appearance: auto;
-
+.suggestions li {
+  padding: 11px 16px;
   cursor: pointer;
-
-  background-color: #fffdf8;
-
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  transition: all 0.15s var(--ease);
+  border-bottom: 1px solid var(--cream-dark);
 }
 
+.suggestions li:last-child {
+  border-bottom: none;
+}
 
+.suggestions li:hover {
+  background: var(--cream-mid);
+  color: var(--brown-600);
+}
 
-/* Focus effect */
+.suggestions li:active {
+  background: var(--cream-dark);
+}
+
+.suggestions::-webkit-scrollbar {
+  width: 6px;
+}
+
+.suggestions::-webkit-scrollbar-thumb {
+  background-color: var(--brown-200);
+  border-radius: var(--radius-full);
+}
+
+/* ── Input Fields ── */
+.input-group input,
+.input-group select,
+.input-group textarea,
+.death-input,
+.death-select {
+  width: 100%;
+  padding: 13px 14px;
+  border: 1.5px solid var(--brown-100);
+  border-radius: var(--radius-md);
+  background-color: white;
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  font-family: var(--font-family);
+  outline: none;
+  transition: all 0.25s var(--ease);
+}
+
+.input-group textarea {
+  resize: vertical;
+  min-height: 80px;
+}
 
 .input-group input:focus,
-.input-group select:focus {
-
-  border-color: #8b5e3c;
-
-  box-shadow: 0 0 5px rgba(139, 94, 60, 0.25);
-
+.input-group select:focus,
+.input-group textarea:focus,
+.death-input:focus,
+.death-select:focus {
+  border-color: var(--brown-400);
+  box-shadow: 0 0 0 3px rgba(141, 110, 99, 0.1);
+  background-color: white;
 }
 
-
-
-/* Labels */
-
+/* ── Floating Labels ── */
 .input-group label {
-
   position: absolute;
-
-  left: 12px;
-  top: 14px;
-
-  color: #8b6b4a;
-
-  font-size: 15px;
-
-  background-color: #fffaf3;
-
-  padding: 0 5px;
-
-  pointer-events: none;
-
-  transition: all 0.2s ease;
-
-}
-
-
-
-/* Floating label animation */
-
-.input-group input:focus + label,
-.input-group input:not(:placeholder-shown) + label,
-.input-group select:focus + label,
-.input-group select:not([value=""]) + label {
-
   top: -9px;
-
-  font-size: 12px;
-
-  color: #5a3e2b;
-
-}
-
-
-
-/* Submit button */
-
-.submit-btn {
-
-  padding: 14px;
-
-  font-size: 16px;
-
+  left: 12px;
+  background-color: var(--cream-light);
+  padding: 0 8px;
+  font-size: 0.75rem;
   font-weight: 600;
-
-  border-radius: 6px;
-
-  border: none;
-
-  background-color: #8b5e3c;
-
-  color: #fffaf3;
-
-  cursor: pointer;
-
-  transition: all 0.25s ease;
-
+  color: var(--brown-500);
+  pointer-events: none;
+  border-radius: 4px;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
 }
 
+/* ── Fetch Button ── */
+.fetch-btn {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 8px 16px;
+  background: var(--cream-dark);
+  color: var(--brown-700);
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s var(--ease);
+}
 
+.fetch-btn:hover {
+  background: var(--brown-100);
+  transform: translateY(-1px);
+}
 
-/* Button hover */
+/* ── Toggle Row ── */
+.toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 12px 0 24px;
+  padding: 12px 16px;
+  border: 1.5px solid var(--cream-dark);
+  border-radius: var(--radius-md);
+  background: var(--cream-mid);
+}
+
+.death-header-title {
+  color: var(--brown-800);
+  margin: 0;
+  font-size: 1.5em;
+  font-weight: 700;
+  border-bottom: 2px solid var(--brown-400);
+  padding-bottom: 10px;
+}
+
+.toggle-label {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--brown-700);
+}
+
+/* ── Switch ── */
+.switch {
+  position: relative;
+  width: 44px;
+  height: 22px;
+  flex-shrink: 0;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  background-color: var(--brown-200);
+  border-radius: 22px;
+  transition: 0.3s var(--ease);
+}
+
+.slider::before {
+  content: "";
+  position: absolute;
+  height: 16px;
+  width: 16px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  border-radius: 50%;
+  transition: 0.3s var(--ease);
+  box-shadow: var(--shadow-xs);
+}
+
+.switch input:checked+.slider {
+  background-color: var(--green-ok);
+}
+
+.switch input:checked+.slider::before {
+  transform: translateX(22px);
+}
+
+/* ── Submit Button ── */
+.submit-btn {
+  width: 100%;
+  padding: 14px;
+  margin-top: 16px;
+  background: var(--brown-500);
+  color: white;
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.25s var(--ease);
+  letter-spacing: 0.02em;
+}
 
 .submit-btn:hover {
-
-  background-color: #6f472b;
-
-  box-shadow: 0 3px 10px rgba(101, 67, 33, 0.25);
-
+  background: var(--brown-600);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
 }
 
-
-
-/* Dropdown options */
-
-select option {
-
-  background-color: #fffaf3;
-
-  color: #5a3e2b;
-
+.death-submit-btn {
+  background: var(--brown-500);
+  color: white;
+  border: none;
+  padding: 14px 40px;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 700;
+  transition: all 0.25s var(--ease);
 }
 
+.death-submit-btn:hover {
+  background: var(--brown-600);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
 
+/* ── Search-related ── */
+.search-loading {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border: 1.5px solid var(--brown-200);
+  border-top: none;
+  border-radius: 0 0 var(--radius-md) var(--radius-md);
+  padding: 14px;
+  text-align: center;
+  color: var(--brown-400);
+  font-style: italic;
+  z-index: 1000;
+  box-shadow: var(--shadow-sm);
+}
 
-/* Responsive */
+.no-results-message {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: var(--red-err-bg);
+  border: 1.5px solid var(--red-err);
+  border-top: none;
+  border-radius: 0 0 var(--radius-md) var(--radius-md);
+  padding: 14px;
+  text-align: center;
+  color: var(--red-err);
+  font-style: italic;
+  z-index: 1000;
+}
 
-@media (max-width: 600px) {
+.no-members-message {
+  background: var(--amber-warn-bg);
+  border: 1.5px solid var(--amber-warn);
+  color: #795548;
+  padding: 16px;
+  border-radius: var(--radius-md);
+  text-align: center;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
 
+/* ── Responsive ── */
+@media (max-width: 640px) {
   .container {
-
-    margin: 20px;
+    margin: 16px;
     padding: 20px;
-
   }
-
 }

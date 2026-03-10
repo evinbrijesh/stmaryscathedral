@@ -1,14 +1,18 @@
+/* ══════════════════════════════════════════════
+   SIGN IN — Premium Auth Form
+   ══════════════════════════════════════════════ */
+
 .form {
-  background: #f4f1ee; /* Light sand background */
-  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.05),
-              0px 5px 15px rgba(0, 0, 0, 0.05);
-  width: 320px;
+  background: var(--cream-light);
+  box-shadow: var(--shadow-lg);
+  width: 360px;
   display: flex;
   flex-direction: column;
-  gap: 15px;
-  padding: 20px;
-  position: relative;
-  border-radius: 25px;
+  gap: 16px;
+  padding: 32px 28px;
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--cream-dark);
+  animation: fadeIn 0.4s var(--ease);
 }
 
 .form .label {
@@ -21,41 +25,44 @@
 .form .label:has(input:focus) .title {
   top: 0;
   left: 0;
-  color: #8b5e3c; /* Rich brown on focus */
+  color: var(--brown-500);
 }
 
 .form .label .title {
   padding: 0 10px;
-  transition: all 300ms;
+  transition: all 0.3s var(--ease);
   font-size: 12px;
-  color: #3e2c23; /* Dark text for labels */
+  color: var(--brown-600);
   font-weight: 600;
   width: fit-content;
   top: 14px;
   position: relative;
   left: 15px;
-  background: #f4f1ee; /* matches form background */
+  background: var(--cream-light);
 }
 
 .form .input-field {
   width: auto;
   height: 50px;
   text-indent: 15px;
-  border-radius: 15px;
+  border-radius: var(--radius-lg);
   outline: none;
-  background-color: #fff; /* white inputs */
-  border: 1px solid #8b8e98; /* gray border */
-  transition: all 0.3s;
-  caret-color: #d17842; /* orange caret */
-  color: #3e2c23; /* dark text */
+  background-color: white;
+  border: 1.5px solid var(--brown-100);
+  transition: all 0.3s var(--ease);
+  caret-color: var(--gold-dark);
+  color: var(--text-primary);
+  font-family: var(--font-family);
+  font-size: 0.95rem;
 }
 
 .form .input-field:hover {
-  border-color: #d17842; /* warm orange on hover */
+  border-color: var(--brown-200);
 }
 
 .form .input-field:focus {
-  border-color: #8b5e3c; /* dark brown on focus */
+  border-color: var(--brown-400);
+  box-shadow: 0 0 0 3px rgba(141, 110, 99, 0.12);
 }
 
 .form .split {
@@ -68,32 +75,33 @@
 
 .form .split label {
   width: 130px;
-  color: #3e2c23; /* dark label text */
+  color: var(--text-primary);
 }
 
 .form .checkout-btn {
-  margin-top: 20px;
-  padding: 20px 0;
-  border-radius: 25px;
+  margin-top: 12px;
+  padding: 16px 0;
+  border-radius: var(--radius-xl);
   font-weight: 700;
-  transition: all 0.3s cubic-bezier(0.15, 0.83, 0.66, 1);
+  transition: all 0.3s var(--ease);
   cursor: pointer;
-  font-size: 20px;
+  font-size: 1rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: none;
-  color: #fff; /* button text white */
-  background: #8b5e3c; /* rich brown button */
   border: 2px solid transparent;
+  color: white;
+  background: linear-gradient(135deg, var(--brown-500), var(--brown-700));
+  letter-spacing: 0.02em;
 }
 
 .form .checkout-btn:hover {
-  color: #8b5e3c; /* text changes to brown */
-  border: 2px solid #8b5e3c; 
-  background: #f4f1ee; /* background turns sand */
+  background: transparent;
+  color: var(--brown-600);
+  border-color: var(--brown-400);
+  transform: translateY(-1px);
 }
 
 .form .checkout-btn:active {
-  scale: 0.95;
+  transform: scale(0.98);
 }

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import '../css/navbar.css';
-import pic1 from '../assets/images/logo.jpg'; 
-import { useNavigate, useLocation } from 'react-router-dom';  
+import pic1 from '../assets/images/logo.jpg';
+import { useNavigate, useLocation } from 'react-router-dom';
 const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -28,6 +28,11 @@ const Navbar = () => {
   return (
     <nav className="navbar">
       <div className="navbar-left">
+        {location.pathname !== '/' && location.pathname !== '/SignIn' && location.pathname !== '/About' && (
+          <button className="back-btn" onClick={() => navigate(-1)} title="Go Back">
+            ←
+          </button>
+        )}
         <div className="logo-wrapper" onClick={() => navigate('About')} role="button" tabIndex="0">
           <img src={pic1} alt="Church Logo" className="logo" />
         </div>
@@ -40,7 +45,7 @@ const Navbar = () => {
         <span onClick={() => navigate('/About')} className="nav-link">About</span>
         {isAuthenticated ? (
           <>
-            <span className="nav-link" style={{cursor: 'default'}}>{username}</span>
+            <span className="nav-link" style={{ cursor: 'default' }}>{username}</span>
             <span onClick={handleSignOut} className="nav-link">Sign Out</span>
           </>
         ) : (

@@ -1,23 +1,12 @@
-/* General reset */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Segoe UI', sans-serif;
-}
+/* ══════════════════════════════════════════════
+   SEARCH BAPTISM — Search + Table
+   ══════════════════════════════════════════════ */
 
-body {
-  background: #f9f6f1; /* light cream */
-  display: flex;
-  justify-content: center;
-  padding: 20px;
-}
-
-/* Container for search input */
+/* Search Input Container */
 .container-input2 {
   width: 100%;
-  max-width: 500px;
-  margin: 0 auto 20px auto;
+  max-width: 520px;
+  margin: 0 auto 24px auto;
   display: flex;
   align-items: center;
   gap: 10px;
@@ -25,44 +14,54 @@ body {
 
 .container-input2 .input {
   flex: 1;
-  padding: 12px 10px;
-  border-radius: 8px;
-  border: 1px solid #d6cfc4;
-  font-size: 14px;
+  padding: 13px 14px;
+  border-radius: var(--radius-md);
+  border: 1.5px solid var(--brown-100);
+  font-size: 0.95rem;
+  font-family: var(--font-family);
   outline: none;
-  background: #f3eee7;
-  color: #4e463c;
+  background: white;
+  color: var(--text-primary);
+  transition: all var(--duration) var(--ease);
+}
+
+.container-input2 .input:focus {
+  border-color: var(--brown-400);
+  box-shadow: 0 0 0 3px rgba(141, 110, 99, 0.1);
 }
 
 .container-input2 .input::placeholder {
-  color: #8e8170;
+  color: var(--text-muted);
 }
 
-/* Table container */
+/* Table Container */
 .member-table-container1 {
   width: 100%;
   max-width: 1000px;
   margin: 0 auto;
-  background: #fffef9;
-  padding: 20px;
-  border-radius: 15px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  background: var(--cream-light);
+  padding: 24px;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--cream-dark);
 }
 
-/* Table heading */
 .member-table-container1 h2 {
   text-align: center;
-  margin-bottom: 15px;
-  color: #5c5145;
-  font-size: 20px;
+  margin-bottom: 16px;
+  color: var(--brown-800);
+  font-size: 1.3rem;
+  font-weight: 700;
 }
 
-/* Table wrapper for scroll */
+/* Table Scroll Wrapper */
 .table-wrapper1 {
   overflow-x: auto;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--cream-dark);
 }
 
-/* Table styles */
+/* Table */
 .member-table {
   width: 100%;
   border-collapse: collapse;
@@ -71,29 +70,35 @@ body {
 
 .member-table th,
 .member-table td {
-  padding: 10px 12px;
+  padding: 12px 14px;
   text-align: left;
-  border-bottom: 1px solid #d6cfc4;
-  font-size: 14px;
-  color: #4e463c;
+  border-bottom: 1px solid var(--cream-dark);
+  font-size: 0.9rem;
+  color: var(--text-primary);
 }
 
 .member-table th {
-  background-color: #f3eee7;
-  color: #5c5145;
+  background: var(--brown-700);
+  color: white;
   font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-size: 0.8rem;
 }
 
-.member-table tr:hover {
-  background-color: #f8f4ee;
+.member-table tbody tr {
+  transition: background 0.15s var(--ease);
   cursor: pointer;
 }
 
-/* No records message */
+.member-table tbody tr:hover {
+  background: var(--cream-mid);
+}
+
 .member-table td[colspan] {
   text-align: center;
   font-style: italic;
-  color: #8e8170;
+  color: var(--text-muted);
 }
 
 /* Responsive */
@@ -104,7 +109,7 @@ body {
 
   .member-table th,
   .member-table td {
-    padding: 8px 6px;
-    font-size: 12px;
+    padding: 8px 8px;
+    font-size: 0.8rem;
   }
 }

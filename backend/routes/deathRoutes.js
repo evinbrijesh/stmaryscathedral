@@ -14,6 +14,17 @@ router.post("/", async (req, res) => {
       ...deathData
     } = req.body;
 
+    // Auto-generate reg_no: YY/NNNN
+    const now = new Date();
+    const year2 = String(now.getFullYear()).slice(-2);
+    const startOfYear = new Date(now.getFullYear(), 0, 1);
+    const endOfYear = new Date(now.getFullYear(), 11, 31, 23, 59, 59);
+    const countThisYear = await Death.countDocuments({
+      createdAt: { $gte: startOfYear, $lte: endOfYear }
+    });
+    const regNo = `${year2}/${String(countThisYear + 1).padStart(4, '0')}`;
+    deathData.reg_no = regNo;
+
     // Safety net: Double check that no empty strings accidentally got through
     if (deathData.burial_date === "") deathData.burial_date = null;
     if (deathData.age === "") deathData.age = null;
@@ -60,7 +71,7 @@ router.post("/", async (req, res) => {
       isParishioner: true,
       member_id: memberId
     });
-    
+
     await newDeath.save();
 
     // Mark member deceased
@@ -152,15 +163,15 @@ router.get("/:id", async (req, res) => {
 router.put("/:id", async (req, res) => {
   try {
     const updatedDeath = await Death.findByIdAndUpdate(
-      req.params.id, 
-      req.body, 
+      req.params.id,
+      req.body,
       { new: true, runValidators: true }
     );
-    
+
     if (!updatedDeath) {
       return res.status(404).json({ error: "Death record not found" });
     }
-    
+
     res.json(updatedDeath);
   } catch (err) {
     res.status(400).json({ error: err.message });

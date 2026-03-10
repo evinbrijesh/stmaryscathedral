@@ -8,9 +8,63 @@ const SearchFamily = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
 
+  // ✅ Ward → Unit structure
+  const wardStructure = {
+    "Block 1": [
+      { number: "1", name: "Morth Smuni" },
+      { number: "2", name: "Mar Athanasious" },
+      { number: "3", name: "St. Philips" }
+    ],
+    "Block 2": [
+      { number: "1", name: "Mar Basil" },
+      { number: "2", name: "Mar Gabriel" },
+      { number: "3", name: "St. Joseph" },
+      { number: "4", name: "St. Andrews" },
+      { number: "5", name: "Mar Gregorious" },
+      { number: "6", name: "St. Thomas" }
+    ],
+    "Block 3": [
+      { number: "1", name: "St. Paul" },
+      { number: "2", name: "Mar Aprem" },
+      { number: "3", name: "St. James" }
+    ],
+    "Block 4": [
+      { number: "1", name: "St. Johns" },
+      { number: "2", name: "Mar Micheal" },
+      { number: "3", name: "Mar Bahanam" }
+    ],
+    "Block 5": [
+      { number: "1", name: "St. George" },
+      { number: "2", name: "Morth Uluthy" },
+      { number: "3", name: "Mar Kauma" },
+      { number: "4", name: "Mar Alias" },
+      { number: "5", name: "Mar Ignatious" },
+      { number: "6", name: "St. Peters" }
+    ],
+    "Block 6": [
+      { number: "1", name: "Mar Severios" },
+      { number: "2", name: "Mar Yacob Burdhana" },
+      { number: "3", name: "Mar Semavoon" },
+      { number: "4", name: "Mar Ahathulla" },
+      { number: "5", name: "St. Mathews" },
+      { number: "6", name: "Mar Julius" }
+    ]
+  };
+
+  const getUnitName = (block, unitNo) => {
+    if (!block || !unitNo) return "";
+    const units = wardStructure[block];
+    if (units) {
+      const unit = units.find(u => u.number === unitNo);
+      return unit ? `Unit ${unit.number} - ${unit.name}` : unitNo;
+    }
+    return unitNo;
+  };
+
   /* ================= FETCH DATA ================= */
   useEffect(() => {
-    fetch("https://stmaryscathedral.onrender.com/api/families")
+    const API = import.meta.env.VITE_API_URL;
+    fetch(`${API}/api/families`)
       .then((res) => res.json())
       .then((data) => setFamilies(data))
       .catch((err) =>
@@ -56,7 +110,7 @@ const SearchFamily = () => {
       <div className="container-input4">
         <input
           type="text"
-          placeholder="SEARCH BY FAMILY / WARD NUMBER / WARD NAME"
+          placeholder="SEARCH BY FAMILY / BLOCK NUMBER / UNIT NAME"
           className="input"
           value={searchTerm}
           onChange={(e) =>
@@ -86,8 +140,8 @@ const SearchFamily = () => {
                 { key: "familyNumber", header: "Family No" },
                 { key: "familyName", header: "Family Name" },
                 { key: "hof", header: "HoF" },
-                { key: "ward", header: "Ward Name" },
-                { key: "wardNo", header: "Ward No" },
+                { key: "wardNo", header: "Block No" },
+                { key: "ward", header: "Unit Name" },
               ];
 
               const rows = filteredFamilies.map(
@@ -96,8 +150,8 @@ const SearchFamily = () => {
                   familyNumber: fam.family_number,
                   familyName: fam.name,
                   hof: fam.hof,
-                  ward: fam.family_unit,
-                  wardNo: fam.ward_number,
+                  wardNo: fam.ward_number ? fam.ward_number.replace('Block ', '') : '',
+                  ward: getUnitName(fam.ward_number, fam.family_unit),
                 })
               );
 
@@ -120,8 +174,8 @@ const SearchFamily = () => {
                 <th>FAMILY NO</th>
                 <th>FAMILY NAME</th>
                 <th>HoF</th>
-                <th>WARD NAME</th>
-                <th>WARD NO</th>
+                <th>BLOCK NO</th>
+                <th>UNIT NAME</th>
               </tr>
             </thead>
 
@@ -140,8 +194,8 @@ const SearchFamily = () => {
                     <td>{fam.family_number}</td>
                     <td>{fam.name}</td>
                     <td>{fam.hof}</td>
-                    <td>{fam.family_unit}</td>
-                    <td>{fam.ward_number}</td>
+                    <td>{fam.ward_number ? fam.ward_number.replace('Block ', '') : ''}</td>
+                    <td>{getUnitName(fam.ward_number, fam.family_unit)}</td>
                   </tr>
                 ))
               ) : (

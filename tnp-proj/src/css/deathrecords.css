@@ -1,49 +1,59 @@
-body {
-  background-color: #f4f1ee;
-  font-family: 'Segoe UI', sans-serif;
-  color: #3e2c23;
-}
+/* ══════════════════════════════════════════════
+   DEATH RECORDS — Table List
+   ══════════════════════════════════════════════ */
 
 .death-container {
   padding: 2rem;
   max-width: 1200px;
   margin: 0 auto;
+  font-family: var(--font-family);
+  animation: fadeIn 0.4s var(--ease);
 }
 
 .death-title {
   text-align: center;
-  font-size: 1.8rem;
-  color: #3e2c23;
+  font-size: 1.6rem;
+  color: var(--brown-800);
   margin-bottom: 2rem;
+  font-weight: 700;
 }
 
 .death-table-wrapper {
   overflow-x: auto;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  background-color: #fffaf5;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  background: var(--cream-light);
+  border: 1px solid var(--cream-dark);
 }
 
 .death-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 1rem;
-  color: #3e2c23;
+  font-size: 0.9rem;
+  color: var(--text-primary);
 }
 
 .death-table th,
 .death-table td {
-  padding: 12px;
-  border: 1px solid #e0dcd6;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--cream-dark);
   text-align: left;
-  white-space: nowrap;
+  white-space: normal;
 }
 
 .death-table th {
-  background-color: #e7d8c9;
+  background: var(--brown-700);
+  color: white;
   font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-size: 0.8rem;
 }
 
 .death-table tbody tr:hover {
-  background-color: #f0e2d0;
+  background: var(--cream-mid);
+}
+
+.death-table tbody tr:nth-child(even) {
+  background: rgba(243, 236, 226, 0.35);
 }

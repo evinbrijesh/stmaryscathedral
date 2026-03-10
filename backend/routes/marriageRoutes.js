@@ -11,24 +11,45 @@ router.post("/", async (req, res) => {
       marriage_id,
       date,
       place,
+      solemnized_by,
       officiant_number,
 
       spouse1_isParishioner,
       spouse1_id,
       spouse1_name,
+      spouse1_address,
+      spouse1_city_district,
+      spouse1_state_country,
+      spouse1_father_name,
+      spouse1_mother_name,
       spouse1_home_parish,
 
       spouse2_isParishioner,
       spouse2_id,
       spouse2_name,
+      spouse2_address,
+      spouse2_city_district,
+      spouse2_state_country,
+      spouse2_father_name,
+      spouse2_mother_name,
       spouse2_home_parish
     } = req.body;
+
+    // Auto-generate reg_no: YY/NNNN
+    const now = new Date();
+    const year2 = String(now.getFullYear()).slice(-2);
+    const startOfYear = new Date(now.getFullYear(), 0, 1);
+    const endOfYear = new Date(now.getFullYear(), 11, 31, 23, 59, 59);
+    const countThisYear = await Marriage.countDocuments({
+      createdAt: { $gte: startOfYear, $lte: endOfYear }
+    });
+    const regNo = `${year2}/${String(countThisYear + 1).padStart(4, '0')}`;
 
     // ----------------------------
     // Basic validation
     // ----------------------------
-    if (!marriage_id || !date) {
-      return res.status(400).json({ error: "Marriage ID and date are required" });
+    if (!date) {
+      return res.status(400).json({ error: "Marriage date is required" });
     }
 
     if (spouse1_isParishioner && !spouse1_id) {
@@ -64,31 +85,41 @@ router.post("/", async (req, res) => {
     }
 
     // ----------------------------
-    // Duplicate marriage ID check
+    // Auto-generate marriage_id from reg_no if not provided
     // ----------------------------
-    const existingMarriage = await Marriage.findOne({ marriage_id });
-    if (existingMarriage) {
-      return res.status(409).json({ error: "Marriage ID already exists" });
-    }
+    const finalMarriageId = marriage_id || regNo;
+
 
     // ----------------------------
     // Create marriage record
     // ----------------------------
     const marriage = new Marriage({
-      marriage_id,
+      marriage_id: finalMarriageId,
+      reg_no: regNo,
 
       spouse1_isParishioner,
       spouse1_id: spouse1Member?._id || null,
       spouse1_name: spouse1Member?.name || spouse1_name,
+      spouse1_address: spouse1_address || null,
+      spouse1_city_district: spouse1_city_district || null,
+      spouse1_state_country: spouse1_state_country || null,
+      spouse1_father_name: spouse1_father_name || null,
+      spouse1_mother_name: spouse1_mother_name || null,
       spouse1_home_parish: spouse1_isParishioner ? null : spouse1_home_parish,
 
       spouse2_isParishioner,
       spouse2_id: spouse2Member?._id || null,
       spouse2_name: spouse2Member?.name || spouse2_name,
+      spouse2_address: spouse2_address || null,
+      spouse2_city_district: spouse2_city_district || null,
+      spouse2_state_country: spouse2_state_country || null,
+      spouse2_father_name: spouse2_father_name || null,
+      spouse2_mother_name: spouse2_mother_name || null,
       spouse2_home_parish: spouse2_isParishioner ? null : spouse2_home_parish,
 
       date,
       place,
+      solemnized_by,
       officiant_number
     });
 

@@ -14,7 +14,8 @@ const Subscription = () => {
 
   // Fetch all families
   useEffect(() => {
-    fetch("https://stmaryscathedral.onrender.com/api/families")
+    const API = import.meta.env.VITE_API_URL;
+    fetch(`${API}/api/families`)
       .then((res) => res.json())
       .then((data) => setFamilies(data))
       .catch((err) => console.error("Error fetching families:", err));
@@ -44,8 +45,9 @@ const Subscription = () => {
   const fetchSubscriptionHistory = async (familyNumber) => {
     try {
       setLoading(true);
+      const API = import.meta.env.VITE_API_URL;
       const res = await fetch(
-        `https://stmaryscathedral.onrender.com/api/subscriptions/family/${familyNumber}`
+        `${API}/api/subscriptions/family/${familyNumber}`
       );
       const data = await res.json();
       setSubscriptionHistory(data);
@@ -135,7 +137,8 @@ const Subscription = () => {
     };
 
     try {
-      const res = await fetch("https://stmaryscathedral.onrender.com/api/subscriptions", {
+      const API = import.meta.env.VITE_API_URL;
+      const res = await fetch(`${API}/api/subscriptions`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload)
@@ -161,7 +164,7 @@ const Subscription = () => {
   const handleTogglePaid = async (subscription) => {
     const newPaidStatus = !subscription.paid;
     const action = newPaidStatus ? "mark as paid" : "mark as unpaid";
-    
+
     if (!window.confirm(`⚠️ Are you sure you want to ${action} this subscription?`)) {
       return;
     }
@@ -173,7 +176,8 @@ const Subscription = () => {
         paid_date: newPaidStatus ? new Date().toISOString() : subscription.paid_date
       };
 
-      const res = await fetch(`https://stmaryscathedral.onrender.com/api/subscriptions/${subscription._id}`, {
+      const API = import.meta.env.VITE_API_URL;
+      const res = await fetch(`${API}/api/subscriptions/${subscription._id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload)

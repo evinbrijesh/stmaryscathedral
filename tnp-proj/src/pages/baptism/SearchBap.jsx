@@ -165,7 +165,7 @@ const SearchBap = () => {
             style={{ background: "#8b5e3c" }}
             onClick={() => {
               const columns = [
-                { key: "slNo", header: "Sl No" },
+                { key: "regNo", header: "Reg.No." },
                 { key: "familyNumber", header: "Family Number" },
                 { key: "familyName", header: "Family Name" },
                 { key: "hof", header: "Head of Family" },
@@ -184,7 +184,7 @@ const SearchBap = () => {
                 { key: "remarks", header: "Remarks" },
               ];
               const rows = filteredBaptisms.map((bap, index) => ({
-                slNo: index + 1,
+                regNo: bap.reg_no || "-",
                 familyNumber: bap.family_number,
                 familyName: bap.family_name,
                 hof: bap.hof,
@@ -218,10 +218,9 @@ const SearchBap = () => {
           <table className="member-table">
             <thead>
               <tr>
-                <th>Sl No</th>
+                <th>Reg.No.</th>
                 <th>Family Number</th>
                 <th>Family Name</th>
-                <th>Head of Family</th>
                 <th>Member Name</th>
                 <th>Status</th>
                 <th>Gender</th>
@@ -230,9 +229,6 @@ const SearchBap = () => {
                 <th>Baptism Name</th>
                 <th>Date of Baptism</th>
                 <th>Place of Baptism</th>
-                <th>Church Where Baptised</th>
-                <th>Godparent Name</th>
-                <th>Godparent House</th>
                 <th>Certificate No.</th>
                 <th>Remarks</th>
                 <th>Actions</th>
@@ -241,10 +237,9 @@ const SearchBap = () => {
             <tbody>
               {filteredBaptisms.map((bap, index) => (
                 <tr key={bap._id}>
-                  <td>{index + 1}</td>
+                  <td>{bap.reg_no || "-"}</td>
                   <td>{bap.family_number}</td>
                   <td>{bap.family_name}</td>
-                  <td>{bap.hof}</td>
                   <td>{bap.member_name}</td>
                   <td>{bap.isParishioner === false ? "Non-Parishioner" : "Parishioner"}</td>
                   <td>{bap.gender}</td>
@@ -253,9 +248,6 @@ const SearchBap = () => {
                   <td>{bap.bapt_name}</td>
                   <td>{formatDate(bap.date_of_baptism)}</td>
                   <td>{bap.place_of_baptism || "N/A"}</td>
-                  <td>{bap.church_where_baptised || "N/A"}</td>
-                  <td>{bap.godparent_name || "N/A"}</td>
-                  <td>{bap.godparent_house_name || "N/A"}</td>
                   <td>{bap.certificate_number || "N/A"}</td>
                   <td>{bap.remarks || "-"}</td>
                   <td className="actions-cell">

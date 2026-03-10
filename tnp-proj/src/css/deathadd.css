@@ -1,24 +1,35 @@
+/* ══════════════════════════════════════════════
+   DEATH ADD — Duplicates addfamily.css
+   (Both share .container, .input-group, etc.)
+   ══════════════════════════════════════════════ */
+
 /* Container */
 .container {
-  max-width: 600px;
-  margin: 40px auto;
-  padding: 20px 30px;
-  background: #fdf6ec; /* soft cream */
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  max-width: 620px;
+  margin: 32px auto;
+  padding: 32px;
+  background: var(--cream-light);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--cream-dark);
+  font-family: var(--font-family);
+  animation: fadeIn 0.4s var(--ease);
 }
 
 /* Form title */
 .register-form h2 {
   text-align: center;
-  margin-bottom: 20px;
-  color: #4e342e; /* dark brown */
+  margin-bottom: 24px;
+  color: var(--brown-800);
+  font-size: 1.4rem;
+  font-weight: 700;
 }
-/* Wrapper must be relative */
+
+/* Input Group Wrapper */
 .input-group {
   position: relative;
-  margin-bottom: 18px;
+  margin-top: 10px;
+  margin-bottom: 24px;
 }
 
 /* Suggestions dropdown */
@@ -27,63 +38,65 @@
   top: calc(100% + 4px);
   left: 0;
   right: 0;
-
-  background: #ffffff;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-
+  background: white;
+  border: 1.5px solid var(--brown-100);
+  border-radius: var(--radius-md);
   list-style: none;
   padding: 0;
   margin: 0;
-
   max-height: 220px;
   overflow-y: auto;
-
-  z-index: 1000; /* VERY IMPORTANT */
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+  z-index: 1000;
+  box-shadow: var(--shadow-md);
 }
 
-/* Individual item */
 .suggestions li {
-  padding: 10px 14px;
+  padding: 11px 16px;
   cursor: pointer;
-  font-size: 14px;
-  color: #333;
-  transition: background 0.2s ease;
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  transition: all 0.15s var(--ease);
+  border-bottom: 1px solid var(--cream-dark);
 }
 
-/* Hover */
+.suggestions li:last-child {
+  border-bottom: none;
+}
+
 .suggestions li:hover {
-  background-color: #f2f6ff;
+  background: var(--cream-mid);
+  color: var(--brown-600);
 }
 
-/* Active / clicked feel */
 .suggestions li:active {
-  background-color: #e6eeff;
+  background: var(--cream-dark);
 }
 
-/* Scrollbar (optional polish) */
 .suggestions::-webkit-scrollbar {
   width: 6px;
 }
 
 .suggestions::-webkit-scrollbar-thumb {
-  background-color: #cfcfcf;
-  border-radius: 3px;
+  background-color: var(--brown-200);
+  border-radius: var(--radius-full);
 }
 
-
+/* Input Fields */
 .input-group input,
 .input-group select,
-.input-group textarea {
+.input-group textarea,
+.death-input,
+.death-select {
   width: 100%;
-  padding: 12px;
-  border: 1px solid #d7ccc8; /* light brown border */
-  border-radius: 8px;
-  background: #fffaf3; /* very light cream */
-  font-size: 16px;
+  padding: 13px 14px;
+  border: 1.5px solid var(--brown-100);
+  border-radius: var(--radius-md);
+  background-color: white;
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  font-family: var(--font-family);
   outline: none;
-  transition: border 0.2s;
+  transition: all 0.25s var(--ease);
 }
 
 .input-group textarea {
@@ -93,58 +106,78 @@
 
 .input-group input:focus,
 .input-group select:focus,
-.input-group textarea:focus {
-  border-color: #8d6e63; /* medium brown */
+.input-group textarea:focus,
+.death-input:focus,
+.death-select:focus {
+  border-color: var(--brown-400);
+  box-shadow: 0 0 0 3px rgba(141, 110, 99, 0.1);
+  background-color: white;
 }
 
+/* Floating Labels */
 .input-group label {
   position: absolute;
-  top: -10px;
+  top: -9px;
   left: 12px;
-  background: #fdf6ec;
-  padding: 0 5px;
-  font-size: 14px;
-  color: #6d4c41;
+  background-color: var(--cream-light);
+  padding: 0 8px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--brown-500);
+  pointer-events: none;
+  border-radius: 4px;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
 }
 
-/* Fetch button BELOW the input */
+/* Fetch Button */
 .fetch-btn {
   display: inline-block;
-  margin-top: 8px;   /* space below input */
-  padding: 6px 12px;
-  background: #d7ccc8; /* light brown */
-  color: #3e2723;
+  margin-top: 8px;
+  padding: 8px 16px;
+  background: var(--cream-dark);
+  color: var(--brown-700);
   border: none;
-  border-radius: 6px;
-  font-size: 13px;
+  border-radius: var(--radius-sm);
+  font-size: 0.8rem;
+  font-weight: 600;
   cursor: pointer;
-  transition: background 0.3s;
+  transition: all 0.25s var(--ease);
 }
 
 .fetch-btn:hover {
-  background: #bcaaa4; /* darker on hover */
+  background: var(--brown-100);
+  transform: translateY(-1px);
 }
 
-/* Toggle row container */
+/* Toggle Row */
 .toggle-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: 12px 0 20px;
-  padding: 10px 14px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  background: #fafafa;
+  margin: 12px 0 24px;
+  padding: 12px 16px;
+  border: 1.5px solid var(--cream-dark);
+  border-radius: var(--radius-md);
+  background: var(--cream-mid);
 }
 
-/* Text label */
+.death-header-title {
+  color: var(--brown-800);
+  margin: 0;
+  font-size: 1.5em;
+  font-weight: 700;
+  border-bottom: 2px solid var(--brown-400);
+  padding-bottom: 10px;
+}
+
 .toggle-label {
   font-weight: 600;
-  font-size: 14px;
-  color: #333;
+  font-size: 0.9rem;
+  color: var(--brown-700);
 }
 
-/* Switch container */
+/* Switch */
 .switch {
   position: relative;
   width: 44px;
@@ -152,24 +185,21 @@
   flex-shrink: 0;
 }
 
-/* Hide checkbox */
 .switch input {
   opacity: 0;
   width: 0;
   height: 0;
 }
 
-/* Slider */
 .slider {
   position: absolute;
   cursor: pointer;
   inset: 0;
-  background-color: #ccc;
+  background-color: var(--brown-200);
   border-radius: 22px;
-  transition: 0.3s;
+  transition: 0.3s var(--ease);
 }
 
-/* Knob */
 .slider::before {
   content: "";
   position: absolute;
@@ -179,33 +209,105 @@
   bottom: 3px;
   background-color: white;
   border-radius: 50%;
-  transition: 0.3s;
+  transition: 0.3s var(--ease);
+  box-shadow: var(--shadow-xs);
 }
 
-/* Checked state */
-.switch input:checked + .slider {
-  background-color: #27ae60;
+.switch input:checked+.slider {
+  background-color: var(--green-ok);
 }
 
-.switch input:checked + .slider::before {
+.switch input:checked+.slider::before {
   transform: translateX(22px);
 }
 
-
-/* Submit button */
+/* Submit Button */
 .submit-btn {
   width: 100%;
   padding: 14px;
-  margin-top: 15px;
-  background: #8d6e63; /* medium brown */
+  margin-top: 16px;
+  background: var(--brown-500);
   color: white;
   border: none;
-  border-radius: 8px;
-  font-size: 16px;
+  border-radius: var(--radius-md);
+  font-size: 1rem;
+  font-weight: 700;
   cursor: pointer;
-  transition: background 0.3s;
+  transition: all 0.25s var(--ease);
 }
 
 .submit-btn:hover {
-  background: #6d4c41; /* dark brown */
+  background: var(--brown-600);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+
+.death-submit-btn {
+  background: var(--brown-500);
+  color: white;
+  border: none;
+  padding: 14px 40px;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 700;
+  transition: all 0.25s var(--ease);
+}
+
+.death-submit-btn:hover {
+  background: var(--brown-600);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Search Loading */
+.search-loading {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border: 1.5px solid var(--brown-200);
+  border-top: none;
+  border-radius: 0 0 var(--radius-md) var(--radius-md);
+  padding: 14px;
+  text-align: center;
+  color: var(--brown-400);
+  font-style: italic;
+  z-index: 1000;
+  box-shadow: var(--shadow-sm);
+}
+
+.no-results-message {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: var(--red-err-bg);
+  border: 1.5px solid var(--red-err);
+  border-top: none;
+  border-radius: 0 0 var(--radius-md) var(--radius-md);
+  padding: 14px;
+  text-align: center;
+  color: var(--red-err);
+  font-style: italic;
+  z-index: 1000;
+}
+
+.no-members-message {
+  background: var(--amber-warn-bg);
+  border: 1.5px solid var(--amber-warn);
+  color: #795548;
+  padding: 16px;
+  border-radius: var(--radius-md);
+  text-align: center;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 640px) {
+  .container {
+    margin: 16px;
+    padding: 20px;
+  }
 }

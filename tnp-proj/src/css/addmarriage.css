@@ -1,10 +1,6 @@
-body {
-  background-color: #f4f1ee;
-  color: #3e2c23;
-  font-family: 'Segoe UI', sans-serif;
-  margin: 0;
-  padding: 0;
-}
+/* ══════════════════════════════════════════════
+   ADD MARRIAGE — Dual Card + Form
+   ══════════════════════════════════════════════ */
 
 .marriage-flex-container {
   display: flex;
@@ -17,32 +13,38 @@ body {
 .marriage-card {
   width: 45%;
   min-width: 350px;
-  background-color: #fff8f0;
-  border-radius: 10px;
-  box-shadow: 0 0 12px rgba(139, 94, 60, 0.2);
+  background: var(--cream-light);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
-  border: 1px solid #d9c4b0;
+  border: 1px solid var(--cream-dark);
+  animation: fadeIn 0.4s var(--ease);
 }
 
 .marriage-title {
   margin-bottom: 1rem;
   text-align: center;
-  font-size: 1.3rem;
-  color: #4f3a2d;
-  font-weight: 600;
+  font-size: 1.2rem;
+  color: var(--brown-800);
+  font-weight: 700;
 }
 
 .marriage-input-wrapper {
   display: flex;
   align-items: center;
-  border: 1px solid #cbb89d;
-  border-radius: 8px;
+  border: 1.5px solid var(--brown-100);
+  border-radius: var(--radius-md);
   padding: 0.5rem;
-  background-color: #f0e2d0;
+  background: white;
   margin-bottom: 1rem;
   position: relative;
+  transition: border-color var(--duration) var(--ease);
+}
+
+.marriage-input-wrapper:focus-within {
+  border-color: var(--brown-400);
 }
 
 .marriage-input {
@@ -50,26 +52,28 @@ body {
   outline: none;
   background: transparent;
   flex-grow: 1;
-  font-size: 1rem;
-  color: #3e2c23;
+  font-size: 0.95rem;
+  font-family: var(--font-family);
+  color: var(--text-primary);
   padding: 0.5rem;
   width: 100%;
 }
 
 .marriage-input::placeholder {
-  color: #8b6f47;
-  opacity: 0.6;
+  color: var(--text-muted);
+  opacity: 0.7;
 }
 
 .marriage-input-wrapper svg {
   flex-shrink: 0;
   margin-left: 0.5rem;
+  color: var(--brown-300);
 }
 
 .marriage-selected-info {
-  background: #e8f5e9;
-  border: 2px solid #4caf50;
-  border-radius: 8px;
+  background: var(--green-ok-bg);
+  border: 1px solid #c8e6c9;
+  border-radius: var(--radius-md);
   padding: 12px;
   margin-bottom: 15px;
   display: flex;
@@ -79,82 +83,86 @@ body {
 
 .marriage-selected-info strong {
   color: #2e7d32;
-  font-size: 14px;
+  font-size: 0.9rem;
 }
 
 .marriage-clear-btn {
-  background: #8b5a3c;
-  color: white;
+  background: var(--cream-dark);
+  color: var(--brown-700);
   border: none;
   padding: 6px 12px;
-  border-radius: 5px;
+  border-radius: var(--radius-sm);
   cursor: pointer;
-  font-size: 12px;
-  transition: background 0.3s;
+  font-size: 0.8rem;
+  font-weight: 600;
+  transition: all 0.25s var(--ease);
 }
 
 .marriage-clear-btn:hover {
-  background: #6d4530;
+  background: var(--brown-100);
+  transform: translateY(-1px);
 }
 
 .marriage-table-container {
   max-height: 300px;
   overflow: auto;
-  border-radius: 6px;
-  border: 1px solid #e7d8c9;
-  background-color: #fffefb;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--cream-dark);
+  background: var(--cream-light);
 }
 
 .marriage-table {
   width: 100%;
   min-width: 600px;
   border-collapse: collapse;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
 }
 
 .marriage-table th,
 .marriage-table td {
   padding: 0.6rem;
-  border: 1px solid #e2d2be;
+  border-bottom: 1px solid var(--cream-dark);
   text-align: left;
-  white-space: nowrap;
+  white-space: normal;
 }
 
 .marriage-table th {
-  background-color: #f0e2d0;
-  color: #3e2c23;
+  background: var(--cream-mid);
+  color: var(--brown-800);
   position: sticky;
   top: 0;
   z-index: 1;
   font-weight: 600;
+  font-size: 0.8rem;
 }
 
 .marriage-table tbody tr:hover {
-  background-color: #fef8f0;
+  background: var(--cream-mid);
 }
 
 .marriage-no-data {
   text-align: center;
-  color: #8b6f47;
+  color: var(--text-muted);
   font-style: italic;
   padding: 30px !important;
   white-space: normal;
 }
 
 .marriage-select-btn {
-  background: #8b5a3c;
+  background: var(--brown-400);
   color: white;
   border: none;
   padding: 6px 14px;
-  border-radius: 5px;
+  border-radius: var(--radius-sm);
   cursor: pointer;
-  font-size: 12px;
-  font-weight: 500;
-  transition: background 0.3s;
+  font-size: 0.8rem;
+  font-weight: 600;
+  transition: all 0.25s var(--ease);
 }
 
 .marriage-select-btn:hover {
-  background: #6d4530;
+  background: var(--brown-600);
+  transform: translateY(-1px);
 }
 
 .marriage-select-btn:active {
@@ -164,21 +172,21 @@ body {
 /* Marriage Form Container */
 .marriage-form-container {
   max-width: 900px;
-  margin: 30px auto;
-  background-color: #fff8f0;
-  border-radius: 10px;
-  box-shadow: 0 0 12px rgba(139, 94, 60, 0.2);
+  margin: 32px auto;
+  background: var(--cream-light);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
   padding: 2rem;
-  border: 1px solid #d9c4b0;
+  border: 1px solid var(--cream-dark);
+  animation: fadeIn 0.4s var(--ease);
 }
 
 .marriage-form-title {
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: #4f3a2d;
-  margin-bottom: 25px;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--brown-800);
+  margin-bottom: 24px;
   text-align: center;
-  border-bottom: 3px solid #8b5a3c;
   padding-bottom: 15px;
 }
 
@@ -186,7 +194,7 @@ body {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 20px;
-  margin-bottom: 25px;
+  margin-bottom: 24px;
 }
 
 .marriage-input-group {
@@ -195,30 +203,36 @@ body {
 }
 
 .marriage-input-group label {
-  font-size: 14px;
-  font-weight: 500;
-  color: #4f3a2d;
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--brown-600);
   margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
 }
 
 .marriage-input-group input,
 .marriage-input-group select,
 .marriage-input-group textarea {
-  padding: 12px;
-  border: 1px solid #cbb89d;
-  border-radius: 8px;
-  font-size: 14px;
-  background-color: #fffefb;
-  color: #3e2c23;
-  transition: border-color 0.3s;
+  width: 100%;
+  padding: 13px 14px;
+  border: 1.5px solid var(--brown-100);
+  border-radius: var(--radius-md);
+  background: white;
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  font-family: var(--font-family);
+  outline: none;
+  transition: all 0.25s var(--ease);
 }
 
 .marriage-input-group input:focus,
 .marriage-input-group select:focus,
 .marriage-input-group textarea:focus {
-  outline: none;
-  border-color: #8b5a3c;
-  background-color: #fff;
+  border-color: var(--brown-400);
+  box-shadow: 0 0 0 3px rgba(141, 110, 99, 0.1);
+  background: white;
 }
 
 .marriage-input-group textarea {
@@ -228,37 +242,37 @@ body {
 
 /* Marriage Summary */
 .marriage-summary {
-  background: #f0e2d0;
-  border-left: 4px solid #8b5a3c;
+  background: var(--cream-mid);
+  border-left: 4px solid var(--brown-400);
   padding: 20px;
-  margin-bottom: 25px;
-  border-radius: 8px;
+  margin-bottom: 24px;
+  border-radius: var(--radius-md);
 }
 
 .marriage-summary h3 {
-  font-size: 18px;
-  color: #4f3a2d;
+  font-size: 1.1rem;
+  color: var(--brown-800);
   margin-bottom: 12px;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .marriage-couple-info {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 15px;
+  gap: 14px;
 }
 
 .marriage-couple-info div {
-  font-size: 14px;
-  color: #3e2c23;
-  background: #fffefb;
-  padding: 10px;
-  border-radius: 6px;
-  border: 1px solid #e2d2be;
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  background: var(--cream-light);
+  padding: 12px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--cream-dark);
 }
 
 .marriage-couple-info strong {
-  color: #4f3a2d;
+  color: var(--brown-800);
   display: block;
   margin-bottom: 5px;
   font-weight: 600;
@@ -267,54 +281,106 @@ body {
 /* Submit Button */
 .marriage-submit-btn {
   width: 100%;
-  background: linear-gradient(135deg, #8b5a3c 0%, #6d4530 100%);
+  background: var(--brown-500);
   color: white;
   border: none;
   padding: 15px;
-  border-radius: 8px;
-  font-size: 16px;
-  font-weight: 600;
+  border-radius: var(--radius-md);
+  font-size: 1rem;
+  font-weight: 700;
   cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.3s;
-  box-shadow: 0 4px 15px rgba(139, 90, 60, 0.3);
+  transition: all 0.25s var(--ease);
 }
 
 .marriage-submit-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(139, 90, 60, 0.4);
+  background: var(--brown-600);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
 }
 
 .marriage-submit-btn:active {
-  transform: translateY(0);
+  transform: scale(0.98);
 }
 
 .marriage-submit-btn:disabled {
-  opacity: 0.6;
+  background: var(--brown-200);
   cursor: not-allowed;
   transform: none;
 }
 
-/* Scrollbar Styling */
+/* Scrollbar */
 .marriage-table-container::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
 
 .marriage-table-container::-webkit-scrollbar-track {
-  background: #f0e2d0;
+  background: var(--cream-mid);
   border-radius: 4px;
 }
 
 .marriage-table-container::-webkit-scrollbar-thumb {
-  background: #cbb89d;
+  background: var(--brown-200);
   border-radius: 4px;
 }
 
 .marriage-table-container::-webkit-scrollbar-thumb:hover {
-  background: #8b6f47;
+  background: var(--brown-400);
 }
 
-/* Responsive Design */
+/* Parishioner Toggle */
+.parishioner-toggle-group {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+  padding: 0.75rem;
+  background: var(--cream-mid);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--cream-dark);
+}
+
+.parishioner-toggle-group label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.parishioner-toggle-group input[type="radio"] {
+  accent-color: var(--brown-400);
+  width: 18px;
+  height: 18px;
+}
+
+/* Manual Input */
+.marriage-input-group-manual {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.marriage-input-field {
+  padding: 13px;
+  border: 1.5px solid var(--brown-100);
+  border-radius: var(--radius-md);
+  font-size: 0.95rem;
+  font-family: var(--font-family);
+  background: white;
+  color: var(--text-primary);
+  transition: all 0.25s var(--ease);
+}
+
+.marriage-input-field:focus {
+  outline: none;
+  border-color: var(--brown-400);
+  box-shadow: 0 0 0 3px rgba(141, 110, 99, 0.1);
+}
+
+/* Responsive */
 @media (max-width: 1024px) {
   .marriage-flex-container {
     flex-direction: column;
@@ -351,22 +417,9 @@ body {
     min-width: 500px;
   }
 
-  .marriage-table th,
-  .marriage-table td {
-    padding: 0.4rem;
-  }
-
   .marriage-form-container {
     margin: 20px 1rem;
     padding: 1.5rem;
-  }
-
-  .marriage-title {
-    font-size: 1.1rem;
-  }
-
-  .marriage-form-title {
-    font-size: 1.3rem;
   }
 }
 
@@ -378,58 +431,6 @@ body {
 
   .marriage-select-btn {
     padding: 4px 10px;
-    font-size: 11px;
+    font-size: 0.75rem;
   }
-}
-
-/* New Toglge Group Styles */
-.parishioner-toggle-group {
-  display: flex;
-  gap: 1.5rem;
-  margin-bottom: 1.5rem;
-  padding: 0.5rem;
-  background: #fdf2e9;
-  border-radius: 8px;
-  border: 1px solid #ebcfb2;
-}
-
-.parishioner-toggle-group label {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  cursor: pointer;
-  font-size: 0.95rem;
-  color: #5d4037;
-  font-weight: 500;
-}
-
-.parishioner-toggle-group input[type="radio"] {
-  accent-color: #8b5a3c;
-  width: 18px;
-  height: 18px;
-}
-
-/* Manual Input Group */
-.marriage-input-group-manual {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin-top: 10px;
-}
-
-.marriage-input-field {
-  padding: 12px;
-  border: 1px solid #cbb89d;
-  border-radius: 8px;
-  font-size: 1rem;
-  background-color: #fffefb;
-  color: #3e2c23;
-  transition: all 0.3s;
-}
-
-.marriage-input-field:focus {
-  outline: none;
-  border-color: #8b5a3c;
-  box-shadow: 0 0 0 3px rgba(139, 90, 60, 0.1);
-  background-color: #fff;
 }

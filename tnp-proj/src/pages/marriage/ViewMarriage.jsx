@@ -54,7 +54,7 @@ const ViewMarriage = () => {
       filtered = filtered.filter((m) =>
         (m.spouse1_name || "").toLowerCase().includes(searchQuery.toLowerCase()) ||
         (m.spouse2_name || "").toLowerCase().includes(searchQuery.toLowerCase()) ||
-        (m.marriage_id || "").toLowerCase().includes(searchQuery.toLowerCase())
+        (m.reg_no || "").toLowerCase().includes(searchQuery.toLowerCase())
       );
     }
     if (filterYear) {
@@ -88,10 +88,9 @@ const ViewMarriage = () => {
   const handleEdit = (marriage) => {
     setSelectedMarriage(marriage);
     setEditData({
-      marriage_id: marriage.marriage_id || "",
       date: marriage.date ? marriage.date.split("T")[0] : "",
       place: marriage.place || "",
-      officiant_number: marriage.officiant_number || "",
+      solemnized_by: marriage.solemnized_by || "",
       spouse1_name: marriage.spouse1_name || "",
       spouse2_name: marriage.spouse2_name || "",
       spouse1_isParishioner: marriage.spouse1_isParishioner !== false,
@@ -157,7 +156,7 @@ const ViewMarriage = () => {
       <div className="marriage-search">
         <input
           type="text"
-          placeholder="🔍 Search by name or marriage ID..."
+          placeholder="🔍 Search by name or reg no..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           className="input"
@@ -210,7 +209,7 @@ const ViewMarriage = () => {
             style={{ background: "#8b5e3c" }}
             onClick={() => {
               const columns = [
-                { key: "marriageId", header: "Marriage ID" },
+                { key: "regNo", header: "Reg.No." },
                 { key: "groom", header: "Groom" },
                 { key: "groomStatus", header: "Groom Status" },
                 { key: "bride", header: "Bride" },
@@ -219,7 +218,7 @@ const ViewMarriage = () => {
                 { key: "place", header: "Place" },
               ];
               const rows = filteredMarriages.map((m) => ({
-                marriageId: m.marriage_id,
+                regNo: m.reg_no || "-",
                 groom: m.spouse1_name,
                 groomStatus: m.spouse1_isParishioner !== false ? "Parishioner" : "Non-Parishioner",
                 bride: m.spouse2_name,
@@ -243,8 +242,7 @@ const ViewMarriage = () => {
           <table className="view-marriage-table">
             <thead>
               <tr>
-                <th>Sl No</th>
-                <th>Marriage ID</th>
+                <th>Reg.No.</th>
                 <th>Groom</th>
                 <th>Bride</th>
                 <th>Date</th>
@@ -256,8 +254,7 @@ const ViewMarriage = () => {
               {filteredMarriages.length > 0 ? (
                 filteredMarriages.map((marriage, index) => (
                   <tr key={marriage._id}>
-                    <td>{index + 1}</td>
-                    <td>{marriage.marriage_id}</td>
+                    <td>{marriage.reg_no || "-"}</td>
                     <td>
                       {marriage.spouse1_name}
                       <small>{marriage.spouse1_isParishioner !== false ? "Parishioner" : "Non-Parishioner"}</small>
@@ -301,7 +298,7 @@ const ViewMarriage = () => {
                 ))
               ) : (
                 <tr>
-                  <td colSpan="7" className="no-data">
+                  <td colSpan="6" className="no-data">
                     {searchQuery || filterYear
                       ? "No marriages found matching your criteria"
                       : "No marriage records available"}
@@ -364,20 +361,16 @@ const ViewMarriage = () => {
                   <div className="modal-section-title">Marriage Details</div>
                   <div className="modal-grid">
                     <div className="modal-field">
-                      <label>Marriage ID</label>
-                      <input name="marriage_id" value={editData.marriage_id} onChange={handleEditChange} />
-                    </div>
-                    <div className="modal-field">
-                      <label>Date</label>
+                      <label>Date of Marriage</label>
                       <input type="date" name="date" value={editData.date} onChange={handleEditChange} />
                     </div>
                     <div className="modal-field">
-                      <label>Place</label>
+                      <label>Place of Marriage</label>
                       <input name="place" value={editData.place} onChange={handleEditChange} />
                     </div>
                     <div className="modal-field">
-                      <label>Officiant Number</label>
-                      <input name="officiant_number" value={editData.officiant_number} onChange={handleEditChange} />
+                      <label>Solemnized By</label>
+                      <input name="solemnized_by" value={editData.solemnized_by} onChange={handleEditChange} />
                     </div>
                   </div>
 
@@ -393,10 +386,10 @@ const ViewMarriage = () => {
                 /* ── VIEW ── */
                 <>
                   <div className="modal-section-title">Marriage Information</div>
-                  <div className="modal-info-row"><strong>Marriage ID:</strong> {selectedMarriage.marriage_id}</div>
-                  <div className="modal-info-row"><strong>Date:</strong> {formatDate(selectedMarriage.date)}</div>
-                  <div className="modal-info-row"><strong>Place:</strong> {selectedMarriage.place || "N/A"}</div>
-                  <div className="modal-info-row"><strong>Officiant Number:</strong> {selectedMarriage.officiant_number || "N/A"}</div>
+                  <div className="modal-info-row"><strong>Reg.No.:</strong> {selectedMarriage.reg_no || "N/A"}</div>
+                  <div className="modal-info-row"><strong>Date of Marriage:</strong> {formatDate(selectedMarriage.date)}</div>
+                  <div className="modal-info-row"><strong>Place of Marriage:</strong> {selectedMarriage.place || "N/A"}</div>
+                  <div className="modal-info-row"><strong>Solemnized By:</strong> {selectedMarriage.solemnized_by || "N/A"}</div>
 
                   <div className="modal-section-title">Couple Information</div>
                   <div className="modal-couple-grid">

@@ -21,11 +21,11 @@ router.get("/search-families/:searchTerm", async (req, res) => {
   try {
     const searchTerm = req.params.searchTerm;
     console.log("Searching for:", searchTerm); // Debug log
-    
+
     const families = await Family.find({
       name: { $regex: searchTerm, $options: 'i' }
     }).limit(20);
-    
+
     console.log("Found families:", families.length); // Debug log
     res.json(families);
   } catch (err) {
@@ -38,12 +38,12 @@ router.get("/search-families/:searchTerm", async (req, res) => {
 router.get("/heads-of-family/:familyName", async (req, res) => {
   try {
     const familyName = req.params.familyName;
-    
+
     // Get all families with this name
-    const families = await Family.find({ 
-      name: { $regex: `^${familyName}$`, $options: 'i' } 
+    const families = await Family.find({
+      name: { $regex: `^${familyName}$`, $options: 'i' }
     });
-    
+
     res.json(families);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -56,28 +56,28 @@ router.get("/unbaptized-members/:familyNumber", async (req, res) => {
     const familyNumber = req.params.familyNumber;
     console.log("========================================");
     console.log("Fetching unbaptized members for family:", familyNumber);
-    
+
     // First, get ALL members from this family to debug
     const allMembers = await Member.find({ family_number: familyNumber });
     console.log(`Total members in family ${familyNumber}:`, allMembers.length);
-    
+
     allMembers.forEach(m => {
       console.log(`- ${m.name}: baptism=${m.baptism}, deceased=${m.deceased}`);
     });
-    
+
     // Get unbaptized members
     const unbaptizedMembers = await Member.find({
       family_number: familyNumber,
       baptism: false,
       deceased: { $ne: true }  // Not true (includes false, null, undefined)
     }).sort({ dob: -1 });
-    
+
     console.log(`Unbaptized members found: ${unbaptizedMembers.length}`);
     unbaptizedMembers.forEach(m => {
       console.log(`✓ ${m.name} (${m.gender})`);
     });
     console.log("========================================");
-    
+
     res.json(unbaptizedMembers);
   } catch (err) {
     console.error("Error fetching members:", err);
@@ -94,7 +94,7 @@ router.get("/check-member/:memberId", async (req, res) => {
     }
 
     const baptismRecord = await Baptism.findOne({ member_id: req.params.memberId });
-    
+
     res.json({
       member: {
         name: member.name,
@@ -114,7 +114,7 @@ router.post("/fix-baptism-status", async (req, res) => {
   try {
     // Get all baptism records
     const baptisms = await Baptism.find();
-    
+
     let fixed = 0;
     for (const baptism of baptisms) {
       const member = await Member.findById(baptism.member_id);
@@ -128,7 +128,7 @@ router.post("/fix-baptism-status", async (req, res) => {
     // Get all members marked as baptized but have no record
     const baptizedMembers = await Member.find({ baptism: true });
     let unmarked = 0;
-    
+
     for (const member of baptizedMembers) {
       const baptismRecord = await Baptism.findOne({ member_id: member._id });
       if (!baptismRecord) {
@@ -164,12 +164,16 @@ router.post("/", async (req, res) => {
       member_dob,
       gender,
       home_parish,
+      address,
+      father_name,
+      mother_name,
       date_of_baptism,
       place_of_baptism,
       church_where_baptised,
       bapt_name,
       godparent_name,
       godparent_house_name,
+      baptised_by,
       certificate_number,
       remarks
     } = req.body;
@@ -178,18 +182,33 @@ router.post("/", async (req, res) => {
     const lastRecord = await Baptism.findOne().sort({ sl_no: -1 });
     const nextSlNo = lastRecord ? lastRecord.sl_no + 1 : 1;
 
+    // Auto-generate reg_no: YY/NNNN
+    const now = new Date();
+    const year2 = String(now.getFullYear()).slice(-2);
+    const startOfYear = new Date(now.getFullYear(), 0, 1);
+    const endOfYear = new Date(now.getFullYear(), 11, 31, 23, 59, 59);
+    const countThisYear = await Baptism.countDocuments({
+      createdAt: { $gte: startOfYear, $lte: endOfYear }
+    });
+    const regNo = `${year2}/${String(countThisYear + 1).padStart(4, '0')}`;
+
     let baptismData = {
       sl_no: nextSlNo,
+      reg_no: regNo,
       isParishioner,
       member_name,
       member_dob,
       gender,
+      address,
+      father_name,
+      mother_name,
       date_of_baptism,
       place_of_baptism,
       church_where_baptised,
       bapt_name,
       godparent_name,
       godparent_house_name,
+      baptised_by,
       certificate_number,
       remarks
     };
@@ -208,15 +227,15 @@ router.post("/", async (req, res) => {
       }
 
       if (member.baptism === true) {
-        return res.status(400).json({ 
-          error: "This member is already marked as baptized" 
+        return res.status(400).json({
+          error: "This member is already marked as baptized"
         });
       }
 
       const existingBaptism = await Baptism.findOne({ member_id });
       if (existingBaptism) {
-        return res.status(400).json({ 
-          error: "A baptism record already exists for this member" 
+        return res.status(400).json({
+          error: "A baptism record already exists for this member"
         });
       }
 
@@ -265,8 +284,8 @@ router.post("/", async (req, res) => {
     console.error("❌ Error:", err);
 
     if (err.code === 11000) {
-      return res.status(400).json({ 
-        error: "Duplicate entry: Serial number already exists" 
+      return res.status(400).json({
+        error: "Duplicate entry: Serial number already exists"
       });
     }
 
@@ -292,11 +311,11 @@ router.get("/:id", async (req, res) => {
   try {
     const baptism = await Baptism.findById(req.params.id)
       .populate('member_id');
-    
+
     if (!baptism) {
       return res.status(404).json({ error: "Baptism record not found" });
     }
-    
+
     res.json(baptism);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -307,15 +326,15 @@ router.get("/:id", async (req, res) => {
 router.put("/:id", async (req, res) => {
   try {
     const updatedBaptism = await Baptism.findByIdAndUpdate(
-      req.params.id, 
-      req.body, 
+      req.params.id,
+      req.body,
       { new: true, runValidators: true }
     );
-    
+
     if (!updatedBaptism) {
       return res.status(404).json({ error: "Baptism record not found" });
     }
-    
+
     res.json({
       message: "Baptism record updated successfully",
       data: updatedBaptism
@@ -329,7 +348,7 @@ router.put("/:id", async (req, res) => {
 router.delete("/:id", async (req, res) => {
   try {
     const baptism = await Baptism.findById(req.params.id);
-    
+
     if (!baptism) {
       return res.status(404).json({ error: "Baptism record not found" });
     }
@@ -344,8 +363,8 @@ router.delete("/:id", async (req, res) => {
 
     // Delete baptism record
     await Baptism.findByIdAndDelete(req.params.id);
-    
-    res.json({ 
+
+    res.json({
       message: "Baptism record deleted successfully"
     });
   } catch (err) {

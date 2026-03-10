@@ -1,101 +1,92 @@
-/* General reset */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Segoe UI', sans-serif;
-}
+/* ══════════════════════════════════════════════
+   NEW BAPTISM — Same as existingfamadd base
+   ══════════════════════════════════════════════ */
 
-body {
-  background: #f9f6f1; /* light cream */
-  display: flex;
-  justify-content: center;
-  padding: 20px;
-}
-
-/* Container */
 .container {
-  background: #fffef9; /* soft off-white cream */
-  padding: 30px;
-  border-radius: 20px;
+  background: var(--cream-light);
+  padding: 32px;
+  border-radius: var(--radius-xl);
   width: 100%;
-  max-width: 500px;
-  color: #4e463c; /* dark soft brown */
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  max-width: 540px;
+  margin: 32px auto;
+  color: var(--text-primary);
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--cream-dark);
+  font-family: var(--font-family);
+  animation: fadeIn 0.4s var(--ease);
 }
 
-/* Heading */
 h2 {
   text-align: center;
-  margin-bottom: 25px;
-  color: #5c5145;
-  font-size: 22px;
+  margin-bottom: 28px;
+  color: var(--brown-800);
+  font-size: 1.3rem;
+  font-weight: 700;
 }
 
-/* Input groups */
 .input-group {
   position: relative;
-  margin-bottom: 20px;
+  margin-bottom: 22px;
 }
 
 .input-group input,
 .input-group textarea {
   width: 100%;
-  padding: 14px 10px;
-  background: #f3eee7; /* light warm beige */
-  border: 1px solid #d6cfc4;
-  border-radius: 8px;
-  font-size: 14px;
-  color: #4e463c;
+  padding: 14px 12px;
+  background: white;
+  border: 1.5px solid var(--brown-100);
+  border-radius: var(--radius-md);
+  font-size: 0.9rem;
+  font-family: var(--font-family);
+  color: var(--text-primary);
   outline: none;
   resize: none;
+  transition: all 0.25s var(--ease);
 }
 
-/* Label floating inside input */
+.input-group input:focus,
+.input-group textarea:focus {
+  border-color: var(--brown-400);
+  box-shadow: 0 0 0 3px rgba(141, 110, 99, 0.1);
+}
+
 .input-group label {
   position: absolute;
-  top: 50%;
+  top: -9px;
   left: 12px;
-  transform: translateY(-50%);
-  color: #8e8170;
-  font-size: 14px;
-  background: #f3eee7;
-  padding: 0 4px;
+  background: var(--cream-light);
+  padding: 0 8px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--brown-500);
   pointer-events: none;
-  transition: 0.3s ease;
+  border-radius: 4px;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
 }
 
-.input-group input:focus + label,
-.input-group input:valid + label,
-.input-group textarea:focus + label,
-.input-group textarea:valid + label {
-  top: -10px;
-  left: 10px;
-  font-size: 12px;
-  color: #6e6257;
-}
-
-/* Submit button */
 .submit-btn {
   width: 100%;
-  background: #d8b98a; /* creamy tan */
+  background: var(--brown-500);
   border: none;
   padding: 14px;
-  border-radius: 10px;
-  color: #fffef9;
-  font-size: 16px;
-  font-weight: bold;
+  border-radius: var(--radius-md);
+  color: white;
+  font-size: 1rem;
+  font-weight: 700;
   cursor: pointer;
-  transition: background 0.3s;
+  transition: all 0.25s var(--ease);
 }
 
 .submit-btn:hover {
-  background: #cba76f;
+  background: var(--brown-600);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
 }
 
-/* Responsive */
 @media (max-width: 480px) {
   .container {
+    margin: 16px;
     padding: 20px;
   }
 }

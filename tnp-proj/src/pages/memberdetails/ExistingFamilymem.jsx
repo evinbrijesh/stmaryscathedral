@@ -19,7 +19,7 @@ const ExistingFamilymem = () => {
     occupation: "",
     phone: "",
     email: "",
-    blog_group: "",
+    blood_group: "",
     aadhaar: "",
     family_number: "",
     hof: "No",
@@ -41,8 +41,9 @@ const ExistingFamilymem = () => {
   const fetchFamilyDetails = async (familyNumber) => {
     try {
       if (!familyNumber) return;
+      const API = import.meta.env.VITE_API_URL;
       const res = await fetch(
-        `https://stmaryscathedral.onrender.com/api/families/number/${familyNumber}`
+        `${API}/api/families/number/${familyNumber}`
       );
       if (!res.ok) throw new Error("Family not found");
       const data = await res.json();
@@ -85,14 +86,15 @@ const ExistingFamilymem = () => {
         occupation: formData.occupation,
         phone: formData.phone,
         email: formData.email,
-        blog_group: formData.blog_group,
+        blood_group: formData.blood_group,
         aadhaar: formData.aadhaar,
         family_number: formData.family_number,
         hof: formData.hof === "Yes",
         baptism: formData.baptismStatus === "Yes",
       };
 
-      const res = await fetch("https://stmaryscathedral.onrender.com/api/members", {
+      const API = import.meta.env.VITE_API_URL;
+      const res = await fetch(`${API}/api/members`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
@@ -114,7 +116,7 @@ const ExistingFamilymem = () => {
         occupation: "",
         phone: "",
         email: "",
-        blog_group: "",
+        blood_group: "",
         aadhaar: "",
         family_number: formData.family_number, // keep same family
         hof: "No",
@@ -263,8 +265,8 @@ const ExistingFamilymem = () => {
           <div className="input-group">
             <input
               type="text"
-              name="blog_group"
-              value={formData.blog_group}
+              name="blood_group"
+              value={formData.blood_group}
               onChange={handleChange}
             />
             <label>Blood Group </label>

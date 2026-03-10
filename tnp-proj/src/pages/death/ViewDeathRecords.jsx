@@ -150,7 +150,7 @@ const ViewDeathRecords = () => {
             style={{ background: "#8b5e3c" }}
             onClick={() => {
               const columns = [
-                { key: "slNo", header: "Sl No" },
+                { key: "regNo", header: "Reg.No." },
                 { key: "status", header: "Status" },
                 { key: "familyNo", header: "Family No" },
                 { key: "block", header: "Block" },
@@ -169,7 +169,7 @@ const ViewDeathRecords = () => {
                 { key: "remarks", header: "Remarks" },
               ];
               const rows = filteredRecords.map((rec, index) => ({
-                slNo: index + 1,
+                regNo: rec.reg_no || "-",
                 status: rec.isParishioner === false ? "Non-Parishioner" : "Parishioner",
                 familyNo: rec.family_no || "-",
                 block: rec.block || "-",
@@ -203,7 +203,7 @@ const ViewDeathRecords = () => {
           <table className="death-table">
             <thead>
               <tr>
-                <th>Sl No</th>
+                <th>Reg.No.</th>
                 <th>Status</th>
                 <th>Family No</th>
                 <th>Block</th>
@@ -226,7 +226,7 @@ const ViewDeathRecords = () => {
             <tbody>
               {filteredRecords.map((rec, index) => (
                 <tr key={rec._id}>
-                  <td>{index + 1}</td>
+                  <td>{rec.reg_no || "-"}</td>
                   <td>
                     <span className={`status-badge ${rec.isParishioner === false ? 'non-parishioner' : 'parishioner'}`}>
                       {rec.isParishioner === false ? "Non-Parishioner" : "Parishioner"}

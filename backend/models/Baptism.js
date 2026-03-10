@@ -6,6 +6,9 @@ const BaptismSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
+  reg_no: {
+    type: String,
+  },
 
   // 🔑 Key switch
   isParishioner: {
@@ -60,6 +63,19 @@ const BaptismSchema = new mongoose.Schema({
   },
 
   // -------------------
+  // Certificate Fields (matching certificate order)
+  // -------------------
+  address: {
+    type: String,
+  },
+  father_name: {
+    type: String,
+  },
+  mother_name: {
+    type: String,
+  },
+
+  // -------------------
   // Baptism Details
   // -------------------
   date_of_baptism: {
@@ -84,6 +100,13 @@ const BaptismSchema = new mongoose.Schema({
     type: String,
   },
   godparent_house_name: {
+    type: String,
+  },
+
+  // -------------------
+  // Officiant
+  // -------------------
+  baptised_by: {
     type: String,
   },
 

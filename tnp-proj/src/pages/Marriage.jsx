@@ -1,24 +1,21 @@
 import React from 'react'
-import { useNavigate } from "react-router-dom";  
+import { useNavigate } from "react-router-dom";
 
 const Marriage = () => {
-
-    
-       const navigate=useNavigate(); 
+  const navigate = useNavigate();
   return (
-    <div class="card-container1">
-  <div class="card" on onClick={()=> navigate("/AddMarriage")}>
-    <div class="card-details">
-      <p class="text-title">ADD MARRIAGE</p>
+    <div className="card-container1">
+      <div className="card" onClick={() => navigate("/AddMarriage")}>
+        <div className="card-details">
+          <p className="text-title">ADD MARRIAGE</p>
+        </div>
+      </div>
+      <div className="card" onClick={() => navigate("/ViewMarriage")}>
+        <div className="card-details">
+          <p className="text-title">VIEW MARRIAGE</p>
+        </div>
+      </div>
     </div>
-  </div>
-  <div class="card" on onClick={()=> navigate("/ViewMarriage")}>
-    <div class="card-details">
-      <p class="text-title">VIEW MARRIAGE</p>
-    </div>
-  </div>
- 
-  </div>
   )
 }
 

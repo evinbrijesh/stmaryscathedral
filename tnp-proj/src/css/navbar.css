@@ -1,86 +1,146 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  font-family: 'Segoe UI', sans-serif;
-  background-color: #f4f1ee;
-}
+/* ══════════════════════════════════════════════
+   NAVBAR — Cream + Brown Church Theme
+   ══════════════════════════════════════════════ */
 
 .navbar {
-  width: 100vw;
-  height: 100px;
-  background-color: #e7d8c9; /* Warm Tan */
+  width: 100%;
+  height: 72px;
+  background: rgba(250, 246, 240, 0.85);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 1rem;
+  padding: 0 2rem;
   position: fixed;
   top: 0;
   left: 0;
   z-index: 999;
-  border-bottom: 2px solid #8b5e3c; /* Rich earthy brown */
+  border-bottom: 1px solid var(--brown-100);
+  box-shadow: var(--shadow-xs);
+  transition: all var(--duration) var(--ease);
 }
 
+/* ── Left Section ── */
 .navbar-left {
   display: flex;
   align-items: center;
-  gap: 2rem;
+  gap: 1.25rem;
+}
+
+.back-btn {
+  background: var(--cream-mid, #f0e6d6);
+  border: 1.5px solid var(--brown-200, #bcaaa4);
+  border-radius: var(--radius-md, 8px);
+  color: var(--brown-700, #5d4037);
+  font-size: 1.2rem;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  padding: 0;
+  line-height: 1;
+}
+
+.back-btn:hover {
+  background: var(--brown-200, #bcaaa4);
+  color: white;
+  transform: translateX(-2px);
 }
 
 .logo-wrapper {
-  margin-left: 40px;
-  width: 70px;
-  height: 70px;
-  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  border-radius: var(--radius-full);
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #fff8f0;
-  transition: box-shadow 0.2s ease;
-  box-shadow: 0 0 10px rgba(139, 94, 60, 0.1); /* subtle brown glow */
+  background: white;
+  border: 2px solid var(--cream-dark);
+  transition: all 0.3s var(--ease);
+  box-shadow: var(--shadow-xs);
 }
 
 .logo-wrapper:hover {
-  box-shadow: 0 0 25px 5px rgba(139, 94, 60, 0.35); /* warm brown glow */
+  border-color: var(--gold);
+  box-shadow: 0 0 0 4px rgba(200, 164, 92, 0.15);
+  transform: scale(1.05);
 }
 
 .logo {
-  width: 65px;
-  height: 65px;
-  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-full);
   object-fit: cover;
 }
 
 .site-title {
-  font-size: 1.35rem;
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
   font-weight: 700;
-  color: #3e2c23; /* Deep brown */
-  max-width: 400px;
-  line-height: 1.2;
+  color: var(--brown-800);
+  max-width: 360px;
+  line-height: 1.25;
   cursor: pointer;
+  letter-spacing: -0.01em;
+  transition: color var(--duration) var(--ease);
 }
 
+.site-title:hover {
+  color: var(--gold-dark);
+}
+
+/* ── Right Section ── */
 .navbar-right {
   display: flex;
-  gap: 1.5rem;
+  gap: 0.5rem;
   align-items: center;
-  justify-content: center;
-  text-align: center;
 }
 
 .navbar-right span {
-  font-size: 18px;
-  color: #4f6f52; /* Forest Green */
+  font-size: 0.9rem;
+  color: var(--brown-600);
   font-weight: 600;
   cursor: pointer;
-  margin-right: 50px;
-  transition: color 0.3s ease;
+  padding: 8px 16px;
+  border-radius: var(--radius-md);
+  transition: all var(--duration) var(--ease);
+  position: relative;
 }
 
 .navbar-right span:hover {
-  color: #3e2c23;
+  color: var(--brown-800);
+  background: var(--cream-mid);
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .navbar {
+    height: 64px;
+    padding: 0 1rem;
+  }
+
+  .logo-wrapper {
+    width: 40px;
+    height: 40px;
+  }
+
+  .logo {
+    width: 36px;
+    height: 36px;
+  }
+
+  .site-title {
+    font-size: 0.95rem;
+    max-width: 200px;
+  }
+
+  .navbar-right span {
+    font-size: 0.8rem;
+    padding: 6px 10px;
+  }
 }

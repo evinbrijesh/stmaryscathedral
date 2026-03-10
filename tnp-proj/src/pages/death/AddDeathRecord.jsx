@@ -75,7 +75,8 @@ const AddDeathRecord = () => {
 
   // Fetch families on mount
   useEffect(() => {
-    fetch("https://stmaryscathedral.onrender.com/api/families")
+    const API = import.meta.env.VITE_API_URL;
+    fetch(`${API}/api/families`)
       .then((res) => res.json())
       .then((data) => setFamilies(data))
       .catch((err) => console.error("Error fetching families:", err));
@@ -83,7 +84,7 @@ const AddDeathRecord = () => {
 
   // Filter families by name
   useEffect(() => {
-    if (searchQuery.trim() === "") {
+    if (searchQuery.trim() === "" || (selectedFamily && searchQuery === selectedFamily.name)) {
       setFilteredFamilies([]);
     } else {
       setFilteredFamilies(
@@ -92,13 +93,14 @@ const AddDeathRecord = () => {
         )
       );
     }
-  }, [searchQuery, families]);
+  }, [searchQuery, families, selectedFamily]);
 
   // Fetch members when family selected
   useEffect(() => {
     if (selectedHof && selectedFamily) {
+      const API = import.meta.env.VITE_API_URL;
       fetch(
-        `https://stmaryscathedral.onrender.com/api/members?family_number=${selectedFamily.family_number}`
+        `${API}/api/members?family_number=${selectedFamily.family_number}`
       )
         .then((res) => res.json())
         .then((data) => setMembers(data))
@@ -154,11 +156,8 @@ const AddDeathRecord = () => {
       name: "",
       house_name: "",
       address_place: "",
-<<<<<<< HEAD
-=======
       block: "",
       unit: "",
->>>>>>> dabf6a2 (changes made to death and marriage)
     }));
   };
 
@@ -180,45 +179,11 @@ const AddDeathRecord = () => {
       alert("⚠️ Name is required for non-parishioner.");
       return;
     }
-<<<<<<< HEAD
-
-    if (!formData.death_date) {
-      alert("⚠️ Death date is required.");
-      return;
-    }
-
-    if (!formData.sl_no || isNaN(parseInt(formData.sl_no))) {
-      alert("⚠️ Please enter a valid Serial Number.");
-      return;
-    }
-=======
->>>>>>> dabf6a2 (changes made to death and marriage)
 
 
     const payload = {
       memberId: isParishioner ? selectedMember : null,
       nextHofId: isParishioner && isHof ? nextHof : null,
-<<<<<<< HEAD
-
-      sl_no: parseInt(formData.sl_no),
-      family_no: isParishioner ? selectedFamily.family_number : null,
-
-      name: formData.name,
-      house_name: formData.house_name,
-      address_place: formData.address_place,
-      father_husband_name: formData.father_husband_name,
-      mother_wife_name: formData.mother_wife_name,
-
-      death_date: formData.death_date,
-      burial_date: formData.burial_date,
-      age: formData.age ? parseInt(formData.age) : null,
-
-      conducted_by: formData.conducted_by,
-      cause_of_death: formData.cause_of_death,
-      cell_no: formData.cell_no,
-      remarks: formData.remarks,
-
-=======
       family_no: isParishioner ? selectedFamily.family_number : null,
 
       name: formData.name,
@@ -238,12 +203,12 @@ const AddDeathRecord = () => {
       cell_no: formData.cell_no,
       remarks: formData.remarks,
 
->>>>>>> dabf6a2 (changes made to death and marriage)
       isParishioner: Boolean(isParishioner),
     };
 
     try {
-      const res = await fetch("https://stmaryscathedral.onrender.com/api/deaths", {
+      const API = import.meta.env.VITE_API_URL;
+      const res = await fetch(`${API}/api/deaths`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
@@ -312,43 +277,43 @@ const AddDeathRecord = () => {
           </label>
         </div>
 
-<<<<<<< HEAD
+        {isParishioner && (
+          <>
+            <div className="input-group">
+              <label>Block</label>
+              <select
+                name="block"
+                value={formData.block}
+                onChange={(e) => setFormData({ ...formData, block: e.target.value, unit: "" })}
+              >
+                <option value="">Select Block</option>
+                {Object.keys(blockUnits).map((blockKey) => (
+                  <option key={blockKey} value={blockKey}>
+                    Block {blockKey}
+                  </option>
+                ))}
+              </select>
+            </div>
 
-=======
-        <div className="input-group">
-          <label>Block</label>
-          <select
-            name="block"
-            value={formData.block}
-            onChange={(e) => setFormData({ ...formData, block: e.target.value, unit: "" })}
-          >
-            <option value="">Select Block</option>
-            {Object.keys(blockUnits).map((blockKey) => (
-              <option key={blockKey} value={blockKey}>
-                Block {blockKey}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        {formData.block && (
-          <div className="input-group">
-            <label>Unit</label>
-            <select
-              name="unit"
-              value={formData.unit}
-              onChange={handleChange}
-            >
-              <option value="">Select Unit</option>
-              {blockUnits[formData.block].map((unitObj) => (
-                <option key={unitObj.number} value={`${unitObj.number} - ${unitObj.name}`}>
-                  Unit {unitObj.number} - {unitObj.name}
-                </option>
-              ))}
-            </select>
-          </div>
+            {formData.block && (
+              <div className="input-group">
+                <label>Unit</label>
+                <select
+                  name="unit"
+                  value={formData.unit}
+                  onChange={handleChange}
+                >
+                  <option value="">Select Unit</option>
+                  {blockUnits[formData.block].map((unitObj) => (
+                    <option key={unitObj.number} value={`${unitObj.number} - ${unitObj.name}`}>
+                      Unit {unitObj.number} - {unitObj.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
+          </>
         )}
->>>>>>> dabf6a2 (changes made to death and marriage)
 
         {/* ================= PARISHIONER FLOW ================= */}
         {isParishioner && (
@@ -468,24 +433,17 @@ const AddDeathRecord = () => {
           </>
         )}
 
-<<<<<<< HEAD
+        {/* ================= CERTIFICATE FIELDS (in certificate order) ================= */}
 
-
-
-
-        {/* Rest of form inputs */}
         <div className="input-group">
           <input
-            type="text"
-            name="sl_no"
-            value={formData.sl_no}
+            type="number"
+            name="age"
+            value={formData.age}
             onChange={handleChange}
-            required
           />
-          <label>Sl No</label>
+          <label>Age</label>
         </div>
-=======
->>>>>>> dabf6a2 (changes made to death and marriage)
 
         <div className="input-group">
           <input
@@ -504,7 +462,7 @@ const AddDeathRecord = () => {
             value={formData.address_place}
             onChange={handleChange}
           />
-          <label>Address/Place</label>
+          <label>Address</label>
         </div>
 
         <div className="input-group">
@@ -514,17 +472,7 @@ const AddDeathRecord = () => {
             value={formData.father_husband_name}
             onChange={handleChange}
           />
-          <label>Father/Husband Name</label>
-        </div>
-
-        <div className="input-group">
-          <input
-            type="text"
-            name="mother_wife_name"
-            value={formData.mother_wife_name}
-            onChange={handleChange}
-          />
-          <label>Mother/Wife Name</label>
+          <label>Husband's / Father's Name</label>
         </div>
 
         <div className="input-group">
@@ -535,37 +483,7 @@ const AddDeathRecord = () => {
             onChange={handleChange}
             required
           />
-          <label>Death Date</label>
-        </div>
-
-        <div className="input-group">
-          <input
-            type="date"
-            name="burial_date"
-            value={formData.burial_date}
-            onChange={handleChange}
-          />
-          <label>Burial Date</label>
-        </div>
-
-        <div className="input-group">
-          <input
-            type="number"
-            name="age"
-            value={formData.age}
-            onChange={handleChange}
-          />
-          <label>Age</label>
-        </div>
-
-        <div className="input-group">
-          <input
-            type="text"
-            name="conducted_by"
-            value={formData.conducted_by}
-            onChange={handleChange}
-          />
-          <label>Conducted by</label>
+          <label>Date of Demise *</label>
         </div>
 
         <div className="input-group">
@@ -576,6 +494,41 @@ const AddDeathRecord = () => {
             onChange={handleChange}
           />
           <label>Cause of Death</label>
+        </div>
+
+        <div className="input-group">
+          <input
+            type="date"
+            name="burial_date"
+            value={formData.burial_date}
+            onChange={handleChange}
+          />
+          <label>Date of Funeral</label>
+        </div>
+
+        <div className="input-group">
+          <input
+            type="text"
+            name="conducted_by"
+            value={formData.conducted_by}
+            onChange={handleChange}
+          />
+          <label>Funeral Conducted by</label>
+        </div>
+
+        {/* ================= ADDITIONAL INFO (not on certificate) ================= */}
+        <h3 style={{ marginTop: '20px', marginBottom: '15px', borderBottom: '1px solid #ddd', paddingBottom: '5px' }}>
+          Additional Information
+        </h3>
+
+        <div className="input-group">
+          <input
+            type="text"
+            name="mother_wife_name"
+            value={formData.mother_wife_name}
+            onChange={handleChange}
+          />
+          <label>Mother/Wife Name</label>
         </div>
 
         <div className="input-group">

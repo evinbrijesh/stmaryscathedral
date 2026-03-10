@@ -1,26 +1,31 @@
-body {
-  margin: 0;
-  padding: 0;
-  background-color: #f4f1ee;
-  font-family: 'Segoe UI', sans-serif;
-  color: #3e2c23;
-}
+/* ══════════════════════════════════════════════
+   SEARCH MARRIAGE — Table View
+   ══════════════════════════════════════════════ */
 
 .container-input3 {
   position: relative;
-  padding-left: 60px;
-  padding-bottom: 40px;
+  padding: 0 28px;
+  padding-bottom: 24px;
 }
 
+.container-input3 .input,
 .input {
-  width: 300px;
-  padding: 12px 20px;
-  border-radius: 20px;
-  border: 1px solid #8b5e3c;
-  background-color: #fffefb;
-  color: #3e2c23;
-  font-size: 16px;
+  width: 320px;
+  padding: 13px 18px;
+  border-radius: var(--radius-md);
+  border: 1.5px solid var(--brown-100);
+  background: white;
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  font-family: var(--font-family);
   outline: none;
+  transition: all var(--duration) var(--ease);
+}
+
+.container-input3 .input:focus,
+.input:focus {
+  border-color: var(--brown-400);
+  box-shadow: 0 0 0 3px rgba(141, 110, 99, 0.1);
 }
 
 .table-wrapper {
@@ -32,54 +37,64 @@ body {
 }
 
 .member-box {
-  background-color: #fffaf0 !important; /* Soft cream */
-  border-radius: 10px;
+  background: var(--cream-light);
+  border-radius: var(--radius-md);
   padding: 1rem;
   width: 48.5%;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--cream-dark);
   display: flex;
   flex-direction: column;
-  color: #3e2c23;
+  color: var(--text-primary);
 }
-
 
 .member-title {
   text-align: center;
   margin-bottom: 1rem;
-  font-size: 1.4rem;
-  color: #4f3d2b;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--brown-800);
 }
 
 .table-scroll {
   max-height: 250px;
   overflow: auto;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
 }
 
-/* ✅ Cream Table Styling */
+/* Table */
 .member-table {
   width: 100%;
   min-width: 600px;
   border-collapse: collapse;
-  font-size: 0.95rem;
-  color: #3e2c23;
-  background-color: #fffefb;
+  font-size: 0.9rem;
+  color: var(--text-primary);
 }
 
 .member-table th,
 .member-table td {
-  border: 1px solid #e2d2be;
-  padding: 10px;
+  border-bottom: 1px solid var(--cream-dark);
+  padding: 10px 12px;
   text-align: left;
-  white-space: nowrap;
-  background-color: #fffefb; /* Force light background */
-  color: #3e2c23;
+  white-space: normal;
 }
 
 .member-table th {
-  background-color: #f0e2d0;
-  color: #3e2c23;
+  background: var(--brown-700);
+  color: white;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-size: 0.8rem;
   position: sticky;
   top: 0;
   z-index: 1;
+}
+
+.member-table tbody tr {
+  transition: background 0.15s var(--ease);
+}
+
+.member-table tbody tr:hover {
+  background: var(--cream-mid);
 }

@@ -16,18 +16,29 @@ const AddMarriage = () => {
   const [manualBrideName, setManualBrideName] = useState("");
   const [manualGroomHomeParish, setManualGroomHomeParish] = useState("");
   const [manualBrideHomeParish, setManualBrideHomeParish] = useState("");
+  const [manualGroomAddress, setManualGroomAddress] = useState("");
+  const [manualBrideAddress, setManualBrideAddress] = useState("");
+  const [manualGroomCityDistrict, setManualGroomCityDistrict] = useState("");
+  const [manualBrideCityDistrict, setManualBrideCityDistrict] = useState("");
+  const [manualGroomStateCountry, setManualGroomStateCountry] = useState("");
+  const [manualBrideStateCountry, setManualBrideStateCountry] = useState("");
+  const [manualGroomFatherName, setManualGroomFatherName] = useState("");
+  const [manualBrideFatherName, setManualBrideFatherName] = useState("");
+  const [manualGroomMotherName, setManualGroomMotherName] = useState("");
+  const [manualBrideMotherName, setManualBrideMotherName] = useState("");
 
 
   const [marriageData, setMarriageData] = useState({
-    marriage_id: "",
     date: "",
     place: "",
+    solemnized_by: "",
     officiant_number: ""
   });
 
   // Fetch all members on component mount
   useEffect(() => {
-    fetch("https://stmaryscathedral.onrender.com/api/members")
+    const API = import.meta.env.VITE_API_URL;
+    fetch(`${API}/api/members`)
       .then((res) => res.json())
       .then((data) => {
         // Filter out deceased members
@@ -128,16 +139,9 @@ const AddMarriage = () => {
       return;
     }
 
-    if (!marriageData.marriage_id.trim()) {
-      alert("⚠️ Please enter a Marriage ID");
-      return;
-    }
 
-    // Validate officiant_number if provided
-    if (marriageData.officiant_number && isNaN(Number(marriageData.officiant_number))) {
-      alert("⚠️ Officiant Number must be a valid number.");
-      return;
-    }
+
+
 
     // Prevent same person (only if both parishioners)
     if (
@@ -150,27 +154,38 @@ const AddMarriage = () => {
     }
 
     const payload = {
-      marriage_id: marriageData.marriage_id,
 
       spouse1_id: isGroomParishioner ? selectedGroom?._id : null,
       spouse1_name: isGroomParishioner ? selectedGroom?.name : manualGroomName,
       spouse1_isParishioner: isGroomParishioner,
+      spouse1_address: isGroomParishioner ? null : manualGroomAddress,
+      spouse1_city_district: isGroomParishioner ? null : manualGroomCityDistrict,
+      spouse1_state_country: isGroomParishioner ? null : manualGroomStateCountry,
+      spouse1_father_name: isGroomParishioner ? null : manualGroomFatherName,
+      spouse1_mother_name: isGroomParishioner ? null : manualGroomMotherName,
       spouse1_home_parish: isGroomParishioner ? null : manualGroomHomeParish,
 
       spouse2_id: isBrideParishioner ? selectedBride?._id : null,
       spouse2_name: isBrideParishioner ? selectedBride?.name : manualBrideName,
       spouse2_isParishioner: isBrideParishioner,
+      spouse2_address: isBrideParishioner ? null : manualBrideAddress,
+      spouse2_city_district: isBrideParishioner ? null : manualBrideCityDistrict,
+      spouse2_state_country: isBrideParishioner ? null : manualBrideStateCountry,
+      spouse2_father_name: isBrideParishioner ? null : manualBrideFatherName,
+      spouse2_mother_name: isBrideParishioner ? null : manualBrideMotherName,
       spouse2_home_parish: isBrideParishioner ? null : manualBrideHomeParish,
 
       date: marriageData.date,
       place: marriageData.place,
+      solemnized_by: marriageData.solemnized_by,
       officiant_number: marriageData.officiant_number
     };
 
 
     try {
+      const API = import.meta.env.VITE_API_URL;
       const res = await fetch(
-        "https://stmaryscathedral.onrender.com/api/marriages",
+        `${API}/api/marriages`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -195,12 +210,22 @@ const AddMarriage = () => {
       setManualBrideName("");
       setManualGroomHomeParish("");
       setManualBrideHomeParish("");
+      setManualGroomAddress("");
+      setManualBrideAddress("");
+      setManualGroomCityDistrict("");
+      setManualBrideCityDistrict("");
+      setManualGroomStateCountry("");
+      setManualBrideStateCountry("");
+      setManualGroomFatherName("");
+      setManualBrideFatherName("");
+      setManualGroomMotherName("");
+      setManualBrideMotherName("");
       setFilteredGrooms([]);
       setFilteredBrides([]);
       setMarriageData({
-        marriage_id: "",
         date: "",
         place: "",
+        solemnized_by: "",
         officiant_number: "",
       });
     } catch (err) {
@@ -331,7 +356,42 @@ const AddMarriage = () => {
               />
               <input
                 type="text"
-                placeholder="HOME PARISH"
+                placeholder="ADDRESS"
+                value={manualGroomAddress}
+                onChange={(e) => setManualGroomAddress(e.target.value)}
+                className="marriage-input-field"
+              />
+              <input
+                type="text"
+                placeholder="CITY & DISTRICT"
+                value={manualGroomCityDistrict}
+                onChange={(e) => setManualGroomCityDistrict(e.target.value)}
+                className="marriage-input-field"
+              />
+              <input
+                type="text"
+                placeholder="STATE & COUNTRY"
+                value={manualGroomStateCountry}
+                onChange={(e) => setManualGroomStateCountry(e.target.value)}
+                className="marriage-input-field"
+              />
+              <input
+                type="text"
+                placeholder="FATHER'S NAME"
+                value={manualGroomFatherName}
+                onChange={(e) => setManualGroomFatherName(e.target.value)}
+                className="marriage-input-field"
+              />
+              <input
+                type="text"
+                placeholder="MOTHER'S NAME"
+                value={manualGroomMotherName}
+                onChange={(e) => setManualGroomMotherName(e.target.value)}
+                className="marriage-input-field"
+              />
+              <input
+                type="text"
+                placeholder="NAME OF PARISH"
                 value={manualGroomHomeParish}
                 onChange={(e) => setManualGroomHomeParish(e.target.value)}
                 className="marriage-input-field"
@@ -458,7 +518,42 @@ const AddMarriage = () => {
               />
               <input
                 type="text"
-                placeholder="HOME PARISH"
+                placeholder="ADDRESS"
+                value={manualBrideAddress}
+                onChange={(e) => setManualBrideAddress(e.target.value)}
+                className="marriage-input-field"
+              />
+              <input
+                type="text"
+                placeholder="CITY & DISTRICT"
+                value={manualBrideCityDistrict}
+                onChange={(e) => setManualBrideCityDistrict(e.target.value)}
+                className="marriage-input-field"
+              />
+              <input
+                type="text"
+                placeholder="STATE & COUNTRY"
+                value={manualBrideStateCountry}
+                onChange={(e) => setManualBrideStateCountry(e.target.value)}
+                className="marriage-input-field"
+              />
+              <input
+                type="text"
+                placeholder="FATHER'S NAME"
+                value={manualBrideFatherName}
+                onChange={(e) => setManualBrideFatherName(e.target.value)}
+                className="marriage-input-field"
+              />
+              <input
+                type="text"
+                placeholder="MOTHER'S NAME"
+                value={manualBrideMotherName}
+                onChange={(e) => setManualBrideMotherName(e.target.value)}
+                className="marriage-input-field"
+              />
+              <input
+                type="text"
+                placeholder="NAME OF PARISH"
                 value={manualBrideHomeParish}
                 onChange={(e) => setManualBrideHomeParish(e.target.value)}
                 className="marriage-input-field"
@@ -476,17 +571,7 @@ const AddMarriage = () => {
           <h2 className="marriage-form-title">Marriage Details</h2>
 
           <div className="marriage-form-grid">
-            <div className="marriage-input-group">
-              <label>Marriage ID *</label>
-              <input
-                type="text"
-                name="marriage_id"
-                value={marriageData.marriage_id}
-                onChange={handleMarriageDataChange}
-                required
-                placeholder="e.g., MAR-2024-001"
-              />
-            </div>
+
 
             <div className="marriage-input-group">
               <label>Marriage Date *</label>
@@ -500,7 +585,7 @@ const AddMarriage = () => {
             </div>
 
             <div className="marriage-input-group">
-              <label>Place</label>
+              <label>Place of Marriage</label>
               <input
                 type="text"
                 name="place"
@@ -511,13 +596,13 @@ const AddMarriage = () => {
             </div>
 
             <div className="marriage-input-group">
-              <label>Officiant Number</label>
+              <label>Solemnized By</label>
               <input
                 type="text"
-                name="officiant_number"
-                value={marriageData.officiant_number}
+                name="solemnized_by"
+                value={marriageData.solemnized_by}
                 onChange={handleMarriageDataChange}
-                placeholder="Contact number"
+                placeholder="Name of priest"
               />
             </div>
           </div>

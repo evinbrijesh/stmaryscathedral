@@ -1,71 +1,70 @@
-/* AddFamily.css */
+/* ══════════════════════════════════════════════
+   FAMILY DETAILS — Card Form Layout
+   ══════════════════════════════════════════════ */
 
-/* Container centers the form */
 .container {
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 40px;
   min-height: 100vh;
-  background-color: #ffffff;
-  font-family: 'Segoe UI', sans-serif;
+  background-color: var(--cream);
+  font-family: var(--font-family);
 }
 
-/* Form styling */
 .register-form {
-  width: 450px;
-  background: #f5f5f5;
-  border-radius: 20px;
+  width: 480px;
+  background: var(--cream-light);
+  border-radius: var(--radius-xl);
   padding: 2rem;
-  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.1);
-  border: 2px solid #c3c6ce;
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--cream-dark);
 }
 
-/* Input groups */
 .input-group {
   margin-bottom: 1.5rem;
   display: flex;
   flex-direction: column;
 }
 
-/* Inputs */
 .input-group input {
   width: 100%;
-  padding: 12px 14px;
-  border: 1px solid #c3c6ce;
-  border-radius: 10px;
+  padding: 13px 14px;
+  border: 1.5px solid var(--brown-100);
+  border-radius: var(--radius-md);
   outline: none;
-  font-size: 16px;
-  background: #fff;
-  transition: 0.3s ease;
+  font-size: 0.95rem;
+  font-family: var(--font-family);
+  background: white;
+  color: var(--text-primary);
+  transition: all 0.25s var(--ease);
 }
 
 .input-group input:focus {
-  border-color: #008bf8;
-  box-shadow: 0 0 5px rgba(0, 139, 248, 0.4);
+  border-color: var(--brown-400);
+  box-shadow: 0 0 0 3px rgba(141, 110, 99, 0.1);
 }
 
-/* Row for name and house name */
 .name-row {
   display: flex;
   gap: 15px;
 }
 
-/* Submit button */
 .submit-btn {
   width: 100%;
-  padding: 12px;
+  padding: 14px;
   border: none;
-  border-radius: 12px;
-  background: #008bf8;
-  color: #fff;
-  font-size: 16px;
-  font-weight: bold;
+  border-radius: var(--radius-md);
+  background: var(--brown-500);
+  color: white;
+  font-size: 1rem;
+  font-weight: 700;
   cursor: pointer;
-  transition: 0.3s ease;
+  transition: all 0.25s var(--ease);
 }
 
 .submit-btn:hover {
-  background: #0066c7;
-  transform: scale(1.02);
+  background: var(--brown-600);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
 }

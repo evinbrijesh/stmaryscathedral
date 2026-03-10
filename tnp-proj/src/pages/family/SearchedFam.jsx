@@ -13,7 +13,8 @@ const SearchedFam = () => {
   useEffect(() => {
     if (!family_number) return;
 
-    fetch(`https://stmaryscathedral.onrender.com/api/members?family_number=${family_number}`)
+    const API = import.meta.env.VITE_API_URL;
+    fetch(`${API}/api/members?family_number=${family_number}`)
       .then((res) => res.json())
       .then((data) => setMembers(data))
       .catch((err) => {

@@ -1,16 +1,37 @@
+/* ══════════════════════════════════════════════
+   SEARCH FAMILY — Table View
+   ══════════════════════════════════════════════ */
+
 .container-input4 {
   position: relative;
-  padding-left: 60px; 
+  padding: 0 28px;
+  margin-bottom: 8px;
 }
 
-body {
-  margin: 0;
-  padding: 0;
-  background-color: #1e1e1e;
-  font-family: Arial, sans-serif;
-  color: white;
+.container-input4 .input {
+  width: 100%;
+  padding: 14px 18px;
+  border-radius: var(--radius-md);
+  border: 1.5px solid var(--brown-100);
+  font-size: 0.95rem;
+  font-family: var(--font-family);
+  background: white;
+  color: var(--text-primary);
+  transition: all var(--duration) var(--ease);
+  outline: none;
 }
 
+.container-input4 .input:focus {
+  border-color: var(--brown-400);
+  box-shadow: 0 0 0 3px rgba(141, 110, 99, 0.1);
+}
+
+.container-input4 .input::placeholder {
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+/* Table Wrapper */
 .table-wrapper {
   display: flex;
   justify-content: center;
@@ -20,11 +41,12 @@ body {
 }
 
 .member-box {
-  background-color: #121212;
-  border-radius: 10px;
+  background: var(--cream-light);
+  border-radius: var(--radius-md);
   padding: 1rem;
   width: 48.5%;
-  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--cream-dark);
   display: flex;
   flex-direction: column;
 }
@@ -32,34 +54,49 @@ body {
 .member-title {
   text-align: center;
   margin-bottom: 1rem;
-  font-size: 1.4rem;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--brown-800);
 }
 
 .table-scroll {
   max-height: 250px;
   overflow: auto;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
 }
 
 /* Table styling */
 .member-table {
   width: 100%;
-  min-width: 1000px;
+  min-width: 900px;
   border-collapse: collapse;
 }
 
 .member-table th,
 .member-table td {
-  border: 1px solid #444;
-  padding: 8px;
+  border-bottom: 1px solid var(--cream-dark);
+  padding: 10px 14px;
   text-align: left;
-  white-space: nowrap;
+  white-space: normal;
+  font-size: 0.9rem;
 }
 
 .member-table th {
-  background-color: #222;
-  color: #eee;
+  background: var(--brown-700);
+  color: white;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-size: 0.8rem;
   position: sticky;
   top: 0;
   z-index: 1;
+}
+
+.member-table tbody tr {
+  transition: background 0.15s var(--ease);
+}
+
+.member-table tbody tr:hover {
+  background: var(--cream-mid);
 }

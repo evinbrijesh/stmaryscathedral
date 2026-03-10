@@ -27,7 +27,8 @@ const EditMember = () => {
 
   // ✅ Fetch all families on load
   useEffect(() => {
-    fetch("https://stmaryscathedral.onrender.com/api/families")
+    const API = import.meta.env.VITE_API_URL;
+    fetch(`${API}/api/families`)
       .then((res) => res.json())
       .then((data) => setFamilies(data))
       .catch((err) => console.error("❌ Error fetching families:", err));
@@ -93,8 +94,9 @@ const EditMember = () => {
   // ✅ Fetch members for a family
   const fetchMembers = async (family_number) => {
     try {
+      const API = import.meta.env.VITE_API_URL;
       const res = await fetch(
-        `https://stmaryscathedral.onrender.com/api/members?family_number=${family_number}`
+        `${API}/api/members?family_number=${family_number}`
       );
       if (!res.ok) throw new Error("Failed to fetch members");
       const data = await res.json();
@@ -106,33 +108,33 @@ const EditMember = () => {
   };
 
   // ✅ Select member
-const handleSelectMember = (memberId) => {
-  setSelectedMember(memberId);
-  const memberObj = members.find((m) => m._id === memberId);
+  const handleSelectMember = (memberId) => {
+    setSelectedMember(memberId);
+    const memberObj = members.find((m) => m._id === memberId);
 
-  if (memberObj) {
-    const nameParts = memberObj.name?.split(" ") || [];
+    if (memberObj) {
+      const nameParts = memberObj.name?.split(" ") || [];
 
-    setFormData((prev) => ({
-      ...prev,
-      firstname: nameParts[0] || "",
-      lastname: nameParts.slice(1).join(" ") || "",
-      gender: memberObj.gender || "",
-      relation: memberObj.relation || "",
-      dob: memberObj.dob ? memberObj.dob.split("T")[0] : "",
-      age: memberObj.age || "",
-      occupation: memberObj.occupation || "",
-      phone: memberObj.phone || "",
-      email: memberObj.email || "",
+      setFormData((prev) => ({
+        ...prev,
+        firstname: nameParts[0] || "",
+        lastname: nameParts.slice(1).join(" ") || "",
+        gender: memberObj.gender || "",
+        relation: memberObj.relation || "",
+        dob: memberObj.dob ? memberObj.dob.split("T")[0] : "",
+        age: memberObj.age || "",
+        occupation: memberObj.occupation || "",
+        phone: memberObj.phone || "",
+        email: memberObj.email || "",
 
-      blood_group: memberObj.blood_group || "",
+        blood_group: memberObj.blood_group || "",
 
-      aadhaar: memberObj.aadhaar || "",
-      hof: memberObj.hof ? "Yes" : "No",
-      baptismStatus: memberObj.baptism ? "Yes" : "No",
-    }));
-  }
-};
+        aadhaar: memberObj.aadhaar || "",
+        hof: memberObj.hof ? "Yes" : "No",
+        baptismStatus: memberObj.baptism ? "Yes" : "No",
+      }));
+    }
+  };
 
   // ✅ Handle typing in form
   const handleChange = (e) => {
@@ -165,8 +167,9 @@ const handleSelectMember = (memberId) => {
         baptism: formData.baptismStatus === "Yes",
       };
 
+      const API = import.meta.env.VITE_API_URL;
       const res = await fetch(
-        `https://stmaryscathedral.onrender.com/api/members/${selectedMember}`,
+        `${API}/api/members/${selectedMember}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -212,26 +215,26 @@ const handleSelectMember = (memberId) => {
         {families.filter(
           (f) => f.name.toLowerCase() === formData.family_name.toLowerCase()
         ).length > 1 && (
-          <div className="input-group">
-            <select
-              value={selectedFamily?.hof || ""}
-              onChange={(e) => handleSelectHof(e.target.value)}
-              required
-            >
-              <option value="">-- Select Head of Family --</option>
-              {families
-                .filter(
-                  (f) => f.name.toLowerCase() === formData.family_name.toLowerCase()
-                )
-                .map((fam) => (
-                  <option key={fam._id} value={fam.hof}>
-                    {fam.hof}
-                  </option>
-                ))}
-            </select>
-            <label>Head of Family</label>
-          </div>
-        )}
+            <div className="input-group">
+              <select
+                value={selectedFamily?.hof || ""}
+                onChange={(e) => handleSelectHof(e.target.value)}
+                required
+              >
+                <option value="">-- Select Head of Family --</option>
+                {families
+                  .filter(
+                    (f) => f.name.toLowerCase() === formData.family_name.toLowerCase()
+                  )
+                  .map((fam) => (
+                    <option key={fam._id} value={fam.hof}>
+                      {fam.hof}
+                    </option>
+                  ))}
+              </select>
+              <label>Head of Family</label>
+            </div>
+          )}
 
         {/* 👥 Member Dropdown */}
         {members.length > 0 && (

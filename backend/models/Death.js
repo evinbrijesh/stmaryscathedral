@@ -2,6 +2,10 @@ import mongoose from "mongoose";
 
 const DeathRecordSchema = new mongoose.Schema({
 
+  reg_no: {
+    type: String,
+  },
+
   // 🔑 Key switch
   isParishioner: {
     type: Boolean,

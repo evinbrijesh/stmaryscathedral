@@ -1,5 +1,6 @@
 import React from 'react'
 import pic1 from "./assets/images/pic1.jpg";
+import './css/about.css'; // Importing the external CSS
 
 const About = () => {
   const wardData = [
@@ -57,159 +58,72 @@ const About = () => {
   ];
 
   return (
-    <div className="about-body">
-      {/* Inline CSS inside JSX */}
-      <style>{`
-        .about-body {
-          background: #f8fafc;
-          padding: 40px 20px;
-          font-family: 'Poppins', sans-serif;
-        }
+    <div className="about-page-wrapper">
 
-        .about-container {
-          display: flex;
-          flex-wrap: wrap;
-          align-items: center;
-          justify-content: center;
-          gap: 40px;
-          max-width: 1200px;
-          margin: auto;
-        }
+      {/* 1. HERO SECTION */}
+      <section className="about-hero-section">
+        <div className="about-hero-content">
+          <div className="about-hero-text">
+            <h2>Welcome to Our Church</h2>
+            <div className="hero-divider"></div>
+            <p>
+              St. Mary's Jacobite Syrian Cathedral, Pallikara, is a spiritual home for all who seek peace and connection with God.
+              Founded with a strong tradition and deep faith, our church has grown into a vibrant and welcoming community.
+            </p>
+            <p>
+              We offer regular services, community outreach programs, and a place of comfort for everyone.
+              Our mission is to serve with love, worship with passion, and grow together in Christ.
+            </p>
+            <p className="hero-highlight">
+              Whether you're new in town or exploring your faith, you're always welcome at our church.
+            </p>
+          </div>
 
-        .about-text {
-          flex: 1 1 500px;
-          color: #1e293b;
-        }
+          <div className="about-hero-image">
+            <img src={pic1} alt="St. Mary's Jacobite Syrian Cathedral" />
+            <div className="image-accent-border"></div>
+          </div>
+        </div>
+      </section>
 
-        .about-text h2 {
-          font-size: 2rem;
-          margin-bottom: 15px;
-          color: #0f172a;
-        }
+      {/* 2. WARDS SECTION */}
+      <section className="about-wards-section">
+        <div className="wards-container">
+          <div className="wards-header">
+            <h2>Our Wards</h2>
+            <p>Explore the connected communities and blocks that make up our parish.</p>
+          </div>
 
-        .about-text p {
-          line-height: 1.7;
-          font-size: 1.05rem;
-          color: #334155;
-          margin-bottom: 15px;
-        }
+          <div className="wards-grid">
+            {allWards.map((wardBlock, index) => (
+              <div key={index} className="ward-card">
+                <div className="ward-card-header">
+                  <h3>{wardBlock.title}</h3>
+                  <span className="ward-count">{wardBlock.data.length} Units</span>
+                </div>
 
-        .about-image img {
-          width: 100%;
-          max-width: 400px;
-          border-radius: 16px;
-          box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
-        }
-
-        .wards-heading {
-          font-size: 1.8rem;
-          margin-top: 40px;
-          color: #1e293b;
-          text-align: center;
-        }
-
-        .ward-block {
-          background: #ffffff;
-          margin-top: 30px;
-          padding: 20px;
-          border-radius: 16px;
-          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
-        }
-
-        .block-title {
-          color: #0f172a;
-          font-size: 1.5rem;
-          font-weight: 600;
-          border-left: 5px solid #e7d8c9;
-          padding-left: 10px;
-          margin-bottom: 10px;
-        }
-
-        .ward-table {
-          width: 100%;
-          border-collapse: collapse;
-          margin-top: 10px;
-          font-size: 1rem;
-        }
-
-        .ward-table th {
-          background-color: #e7d8c9;
-          color: black;
-          text-align: left;
-          padding: 10px;
-          border-top-left-radius: 8px;
-          border-top-right-radius: 8px;
-        }
-
-        .ward-table td {
-          padding: 10px;
-          border-bottom: 1px solid #e2e8f0;
-        }
-
-        .ward-table tr:hover {
-          background-color: #f1f5f9;
-          transition: 0.3s ease;
-        }
-
-        @media (max-width: 768px) {
-          .about-container {
-            flex-direction: column;
-          }
-
-          .about-image img {
-            max-width: 300px;
-          }
-
-          .block-title {
-            font-size: 1.2rem;
-          }
-        }
-      `}</style>
-
-      <div className="about-container">
-        <div className="about-text">
-          <h2>Welcome to Our Church</h2>
-          <p>
-            St. Mary's Jacobite Syrian Cathedral, Pallikara, is a spiritual home for all who seek peace and connection with God.
-            Founded with a strong tradition and deep faith, our church has grown into a vibrant and welcoming community.
-          </p>
-          <p>
-            We offer regular services, community outreach programs, and a place of comfort for everyone.
-            Our mission is to serve with love, worship with passion, and grow together in Christ.
-          </p>
-          <p>
-            Whether you're new in town or exploring your faith, you're always welcome at our church.
-          </p>
-
-          <h2 className="wards-heading">Our Wards</h2>
-
-          {allWards.map((wardBlock, index) => (
-            <div key={index} className="ward-block">
-              <h3 className="block-title">{wardBlock.title}</h3>
-              <table className="ward-table">
-                <thead>
-                  <tr>
-                    <th>Unit Number</th>
-                    <th>Name</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {wardBlock.data.map((ward) => (
-                    <tr key={ward.number}>
-                      <td>{ward.number}</td>
-                      <td>{ward.name}</td>
+                <table className="ward-modern-table">
+                  <thead>
+                    <tr>
+                      <th>Unit No.</th>
+                      <th>Name</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          ))}
+                  </thead>
+                  <tbody>
+                    {wardBlock.data.map((ward) => (
+                      <tr key={ward.number}>
+                        <td className="unit-number">{ward.number}</td>
+                        <td className="unit-name">{ward.name}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            ))}
+          </div>
         </div>
+      </section>
 
-        <div className="about-image">
-          <img src={pic1} alt="Church" />
-        </div>
-      </div>
     </div>
   );
 };

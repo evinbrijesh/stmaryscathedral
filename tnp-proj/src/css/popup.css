@@ -1,47 +1,36 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Segoe UI', sans-serif;
-}
-
-body {
-  background: #f9f4ec; /* light cream */
-  color: #2f2f2f;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-}
+/* ══════════════════════════════════════════════
+   POPUP / MODAL — Cream + Brown Theme
+   ══════════════════════════════════════════════ */
 
 /* Form Title */
 .register-form h2 {
-  font-size: 24px;
-  color: #a68160; /* earthy orange-brown */
+  font-size: 1.4rem;
+  color: var(--brown-800);
   display: flex;
   align-items: center;
   gap: 10px;
+  font-weight: 700;
 }
 
 /* Decorative Dot */
 .dot {
   width: 10px;
   height: 10px;
-  background: #a68160;
-  border-radius: 50%;
+  background: var(--gold);
+  border-radius: var(--radius-full);
 }
 
 /* Description Text */
 .register-form p {
   margin: 10px 0 20px;
-  font-size: 14px;
-  color: #7d7369;
+  font-size: 0.875rem;
+  color: var(--text-muted);
 }
 
-/* First and Last Name Fields */
+/* Name Row */
 .name-rows {
   display: flex;
-  gap: 30px;
+  gap: 16px;
 }
 
 /* Input Group */
@@ -54,95 +43,107 @@ body {
 /* Input Fields */
 .input-group input {
   width: 100%;
-  padding: 14px 10px;
-  background: #f2e9db;
-  border: 1px solid #c8b6a6;
-  border-radius: 8px;
-  color: #3d3d3d;
-  font-size: 14px;
+  padding: 14px 12px;
+  background: white;
+  border: 1.5px solid var(--brown-100);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  font-family: var(--font-family);
   outline: none;
-  transition: border-color 0.3s ease;
+  transition: all 0.25s var(--ease);
 }
 
 .input-group input:focus {
-  border-color: #a68160;
+  border-color: var(--brown-400);
+  box-shadow: 0 0 0 3px rgba(141, 110, 99, 0.1);
 }
 
 /* Floating Labels */
 .input-group label {
   position: absolute;
   top: 50%;
-  left: 10px;
+  left: 12px;
   transform: translateY(-50%);
-  color: #6e665c;
-  font-size: 14px;
+  color: var(--text-muted);
+  font-size: 0.875rem;
   pointer-events: none;
-  transition: 0.3s ease;
-  background: #f2e9db;
-  padding: 0 4px;
+  transition: all 0.25s var(--ease);
+  background: white;
+  padding: 0 6px;
+  font-weight: 500;
 }
 
-.input-group input:focus + label,
-.input-group input:not(:placeholder-shown):valid + label {
+.input-group input:focus+label,
+.input-group input:not(:placeholder-shown):valid+label {
   top: -8px;
-  font-size: 12px;
-  color: #5d4f44;
+  font-size: 0.75rem;
+  color: var(--brown-500);
 }
 
 /* Submit Button */
 .submit-btn {
   width: 100%;
-  background: #a68160;
+  background: var(--brown-500);
   border: none;
   padding: 14px;
-  border-radius: 10px;
+  border-radius: var(--radius-md);
   color: white;
-  font-size: 16px;
-  font-weight: bold;
+  font-size: 1rem;
+  font-weight: 700;
   cursor: pointer;
-  transition: background 0.3s;
+  transition: all 0.25s var(--ease);
+  letter-spacing: 0.02em;
 }
 
 .submit-btn:hover {
-  background: #8e5c3c;
+  background: var(--brown-600);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
 }
 
 /* Sign-in Text */
 .signin-text {
   text-align: center;
   margin-top: 15px;
-  font-size: 14px;
-  color: #7d7369;
+  font-size: 0.875rem;
+  color: var(--text-muted);
 }
 
 .signin-text a {
-  color: #a68160;
+  color: var(--brown-500);
   text-decoration: none;
+  font-weight: 600;
 }
 
-/* Popup Overlay (background dimmer) */
+/* ══ Popup Overlay ══ */
 .popup-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(97, 78, 59, 0.4); /* warm shadow */
+  background: rgba(62, 39, 35, 0.35);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
   z-index: 9998;
+  animation: fadeIn 0.2s var(--ease);
 }
 
-/* Popup Modal Box */
+/* ══ Popup Modal ══ */
 .popup {
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 9999;
-  background-color: #fff8ef; /* soft cream */
-  padding: 30px;
-  border-radius: 20px;
+  background: var(--cream-light);
+  padding: 32px;
+  border-radius: var(--radius-xl);
   width: 1550px;
-  max-width: 90vw;
-  box-shadow: 0 0 20px rgba(150, 129, 105, 0.3);
-  color: #2f2f2f;
+  max-width: 92vw;
+  box-shadow: var(--shadow-xl);
+  color: var(--text-primary);
+  border: 1px solid var(--cream-dark);
+  animation: slideUp 0.35s var(--ease);
 }
