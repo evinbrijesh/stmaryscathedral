@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "../../css/searchfamily.css";
 import { useNavigate } from "react-router-dom";
-import { generateTablePdf } from "../../utils/pdfExport";
+import { generateTablePdf, downloadCsv } from "../../utils/pdfExport";
 
 const SearchFamily = () => {
   const [families, setFamilies] = useState([]);
@@ -138,40 +138,60 @@ const SearchFamily = () => {
         >
           <h2>FAMILIES ({filteredFamilies.length})</h2>
 
-          <button
-            type="button"
-            className="submit-btn"
-            onClick={() => {
-              const columns = [
-                { key: "slNo", header: "Sl No" },
-                { key: "familyNumber", header: "Family No" },
-                { key: "familyName", header: "Family Name" },
-                { key: "hof", header: "HoF" },
-                { key: "wardNo", header: "Block No" },
-                { key: "ward", header: "Unit Name" },
-              ];
-
-              const rows = filteredFamilies.map(
-                (fam, index) => ({
+          <div style={{ display: "flex", gap: "8px" }}>
+            <button
+              type="button"
+              className="submit-btn"
+              onClick={() => {
+                const columns = [
+                  { key: "slNo", header: "Sl No" },
+                  { key: "familyNumber", header: "Family No" },
+                  { key: "familyName", header: "Family Name" },
+                  { key: "hof", header: "HoF" },
+                  { key: "wardNo", header: "Block No" },
+                  { key: "ward", header: "Unit Name" },
+                ];
+                const rows = filteredFamilies.map((fam, index) => ({
                   slNo: index + 1,
                   familyNumber: fam.family_number,
                   familyName: fam.name,
                   hof: fam.hof,
                   wardNo: fam.ward_number ? fam.ward_number.replace('Block ', '') : '',
                   ward: getUnitName(fam.ward_number, fam.family_unit),
-                })
-              );
+                }));
+                generateTablePdf({ title: "Family List", columns, rows, fileName: "families.pdf" });
+              }}
+            >
+              Download PDF
+            </button>
 
-              generateTablePdf({
-                title: "Family List",
-                columns,
-                rows,
-                fileName: "families.pdf",
-              });
-            }}
-          >
-            Download PDF
-          </button>
+            <button
+              type="button"
+              className="submit-btn"
+              style={{ background: "#2e7d32" }}
+              onClick={() => {
+                const columns = [
+                  { key: "slNo", header: "Sl No" },
+                  { key: "familyNumber", header: "Family No" },
+                  { key: "familyName", header: "Family Name" },
+                  { key: "hof", header: "HoF" },
+                  { key: "wardNo", header: "Block No" },
+                  { key: "ward", header: "Unit Name" },
+                ];
+                const rows = filteredFamilies.map((fam, index) => ({
+                  slNo: index + 1,
+                  familyNumber: fam.family_number,
+                  familyName: fam.name,
+                  hof: fam.hof,
+                  wardNo: fam.ward_number ? fam.ward_number.replace('Block ', '') : '',
+                  ward: getUnitName(fam.ward_number, fam.family_unit),
+                }));
+                downloadCsv({ columns, rows, fileName: "families.csv" });
+              }}
+            >
+              Download CSV
+            </button>
+          </div>
         </div>
 
         <div className="table-wrapper1">

@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import "../../css/viewmembers.css";
 import { getMembers, getFamilies } from "../../api";
-import { generateTablePdf } from "../../utils/pdfExport";
+import { generateTablePdf, downloadCsv } from "../../utils/pdfExport";
 
 const wardStructure = {
   "Block 1": [
@@ -166,52 +166,92 @@ const ViewMembers = () => {
       <div className="member-table-container1">
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "10px" }}>
           <h2>Members ({filteredMembers.length})</h2>
-          <button
-            type="button"
-            onClick={() => {
-              const columns = [
-                { key: "slNo", header: "Sl No" },
-                { key: "name", header: "Name" },
-                { key: "gender", header: "Gender" },
-                { key: "relation", header: "Relation" },
-                { key: "dob", header: "DOB" },
-                { key: "age", header: "Age" },
-                { key: "occupation", header: "Occupation" },
-                { key: "phone", header: "Phone" },
-                { key: "email", header: "Email" },
-                { key: "bloodGroup", header: "Blood Group" },
-                { key: "aadhaar", header: "Aadhaar" },
-                { key: "familyNumber", header: "Family No" },
-                { key: "hof", header: "HoF" },
-                { key: "baptism", header: "Baptism" },
-              ];
-              const rows = filteredMembers.map((member, index) => ({
-                slNo: index + 1,
-                name: member.name || `${member.firstName || ""} ${member.lastName || ""}`,
-                gender: member.gender || "",
-                relation: member.relation || "",
-                dob: member.dob ? new Date(member.dob).toLocaleDateString() : "",
-                age: member.age || "",
-                occupation: member.occupation || "",
-                phone: member.phone || "",
-                email: member.email || "",
-                bloodGroup: member.blood_group || "",
-                aadhaar: member.aadhaar || "",
-                familyNumber: member.family_number || member.familyNo || "",
-                hof: member.hof || member.isHof ? "Yes" : "No",
-                baptism: member.baptism ? "Yes" : "No",
-              }));
-              generateTablePdf({
-                title: "Members List",
-                columns,
-                rows,
-                fileName: "members.pdf",
-              });
-            }}
-            className="submit-btn"
-          >
-            Download PDF
-          </button>
+          <div style={{ display: "flex", gap: "8px" }}>
+            <button
+              type="button"
+              onClick={() => {
+                const columns = [
+                  { key: "slNo", header: "Sl No" },
+                  { key: "name", header: "Name" },
+                  { key: "gender", header: "Gender" },
+                  { key: "relation", header: "Relation" },
+                  { key: "dob", header: "DOB" },
+                  { key: "age", header: "Age" },
+                  { key: "occupation", header: "Occupation" },
+                  { key: "phone", header: "Phone" },
+                  { key: "email", header: "Email" },
+                  { key: "bloodGroup", header: "Blood Group" },
+                  { key: "aadhaar", header: "Aadhaar" },
+                  { key: "familyNumber", header: "Family No" },
+                  { key: "hof", header: "HoF" },
+                  { key: "baptism", header: "Baptism" },
+                ];
+                const rows = filteredMembers.map((member, index) => ({
+                  slNo: index + 1,
+                  name: member.name || `${member.firstName || ""} ${member.lastName || ""}`,
+                  gender: member.gender || "",
+                  relation: member.relation || "",
+                  dob: member.dob ? new Date(member.dob).toLocaleDateString() : "",
+                  age: member.age || "",
+                  occupation: member.occupation || "",
+                  phone: member.phone || "",
+                  email: member.email || "",
+                  bloodGroup: member.blood_group || "",
+                  aadhaar: member.aadhaar || "",
+                  familyNumber: member.family_number || member.familyNo || "",
+                  hof: member.hof || member.isHof ? "Yes" : "No",
+                  baptism: member.baptism ? "Yes" : "No",
+                }));
+                generateTablePdf({ title: "Members List", columns, rows, fileName: "members.pdf" });
+              }}
+              className="submit-btn"
+            >
+              Download PDF
+            </button>
+
+            <button
+              type="button"
+              className="submit-btn"
+              style={{ background: "#2e7d32" }}
+              onClick={() => {
+                const columns = [
+                  { key: "slNo", header: "Sl No" },
+                  { key: "name", header: "Name" },
+                  { key: "gender", header: "Gender" },
+                  { key: "relation", header: "Relation" },
+                  { key: "dob", header: "DOB" },
+                  { key: "age", header: "Age" },
+                  { key: "occupation", header: "Occupation" },
+                  { key: "phone", header: "Phone" },
+                  { key: "email", header: "Email" },
+                  { key: "bloodGroup", header: "Blood Group" },
+                  { key: "aadhaar", header: "Aadhaar" },
+                  { key: "familyNumber", header: "Family No" },
+                  { key: "hof", header: "HoF" },
+                  { key: "baptism", header: "Baptism" },
+                ];
+                const rows = filteredMembers.map((member, index) => ({
+                  slNo: index + 1,
+                  name: member.name || `${member.firstName || ""} ${member.lastName || ""}`,
+                  gender: member.gender || "",
+                  relation: member.relation || "",
+                  dob: member.dob ? new Date(member.dob).toLocaleDateString() : "",
+                  age: member.age || "",
+                  occupation: member.occupation || "",
+                  phone: member.phone || "",
+                  email: member.email || "",
+                  bloodGroup: member.blood_group || "",
+                  aadhaar: member.aadhaar || "",
+                  familyNumber: member.family_number || member.familyNo || "",
+                  hof: member.hof || member.isHof ? "Yes" : "No",
+                  baptism: member.baptism ? "Yes" : "No",
+                }));
+                downloadCsv({ columns, rows, fileName: "members.csv" });
+              }}
+            >
+              Download CSV
+            </button>
+          </div>
         </div>
 
         {error && <div style={{ color: "red", padding: "8px" }}>{error}</div>}

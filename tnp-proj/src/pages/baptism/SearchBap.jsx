@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../../css/viewbaptism.css";
-import { generateTablePdf, generateBaptismCertificatePdf } from "../../utils/pdfExport";
+import { generateTablePdf, generateBaptismCertificatePdf, downloadCsv } from "../../utils/pdfExport";
 
 const SearchBap = () => {
   const [baptisms, setBaptisms] = useState([]);
@@ -213,6 +213,55 @@ const SearchBap = () => {
             }}
           >
             Download PDF
+          </button>
+
+          <button
+            type="button"
+            className="submit-btn"
+            style={{ background: "#2e7d32" }}
+            onClick={() => {
+              const columns = [
+                { key: "regNo", header: "Reg.No." },
+                { key: "familyNumber", header: "Family Number" },
+                { key: "familyName", header: "Family Name" },
+                { key: "hof", header: "Head of Family" },
+                { key: "memberName", header: "Member Name" },
+                { key: "status", header: "Status" },
+                { key: "gender", header: "Gender" },
+                { key: "dob", header: "Date of Birth" },
+                { key: "age", header: "Age" },
+                { key: "baptName", header: "Baptism Name" },
+                { key: "baptDate", header: "Date of Baptism" },
+                { key: "placeOfBaptism", header: "Place of Baptism" },
+                { key: "churchWhereBaptised", header: "Church Where Baptised" },
+                { key: "godparentName", header: "Godparent Name" },
+                { key: "godparentHouse", header: "Godparent House" },
+                { key: "certificateNumber", header: "Certificate No." },
+                { key: "remarks", header: "Remarks" },
+              ];
+              const rows = filteredBaptisms.map((bap) => ({
+                regNo: bap.reg_no || "-",
+                familyNumber: bap.family_number || "-",
+                familyName: bap.family_name || "-",
+                hof: bap.hof || "-",
+                memberName: bap.member_name,
+                status: bap.isParishioner === false ? "Non-Parishioner" : "Parishioner",
+                gender: bap.gender,
+                dob: formatDate(bap.member_dob),
+                age: `${calculateAge(bap.member_dob)} years`,
+                baptName: bap.bapt_name,
+                baptDate: formatDate(bap.date_of_baptism),
+                placeOfBaptism: bap.place_of_baptism || "-",
+                churchWhereBaptised: bap.church_where_baptised || "-",
+                godparentName: bap.godparent_name || "-",
+                godparentHouse: bap.godparent_house_name || "-",
+                certificateNumber: bap.certificate_number || "-",
+                remarks: bap.remarks || "-",
+              }));
+              downloadCsv({ columns, rows, fileName: "baptism_records.csv" });
+            }}
+          >
+            Download CSV
           </button>
         </div>
       </div>

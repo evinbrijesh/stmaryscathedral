@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import "../../css/viewmarriage.css";
-import { generateTablePdf, generateMarriageCertificatePdf } from "../../utils/pdfExport";
+import { generateTablePdf, generateMarriageCertificatePdf, downloadCsv } from "../../utils/pdfExport";
 
 const ViewMarriage = () => {
   const [marriages, setMarriages] = useState([]);
@@ -236,6 +236,37 @@ const ViewMarriage = () => {
             }}
           >
             Download PDF
+          </button>
+
+          <button
+            type="button"
+            className="submit-btn"
+            style={{ background: "#2e7d32" }}
+            onClick={() => {
+              const columns = [
+                { key: "regNo", header: "Reg.No." },
+                { key: "groom", header: "Groom" },
+                { key: "groomStatus", header: "Groom Status" },
+                { key: "bride", header: "Bride" },
+                { key: "brideStatus", header: "Bride Status" },
+                { key: "date", header: "Date" },
+                { key: "place", header: "Place" },
+                { key: "solemnizedBy", header: "Solemnized By" },
+              ];
+              const rows = filteredMarriages.map((m) => ({
+                regNo: m.reg_no || "-",
+                groom: m.spouse1_name,
+                groomStatus: m.spouse1_isParishioner !== false ? "Parishioner" : "Non-Parishioner",
+                bride: m.spouse2_name,
+                brideStatus: m.spouse2_isParishioner !== false ? "Parishioner" : "Non-Parishioner",
+                date: formatDate(m.date),
+                place: m.place || "-",
+                solemnizedBy: m.solemnized_by || "-",
+              }));
+              downloadCsv({ columns, rows, fileName: "marriage_records.csv" });
+            }}
+          >
+            Download CSV
           </button>
         </div>
       </div>

@@ -1,5 +1,31 @@
 import jsPDF from "jspdf";
 
+/**
+ * Download data as a .csv file — no dependencies needed.
+ * Uses the same { columns, rows, fileName } shape as generateTablePdf.
+ */
+export function downloadCsv({ columns, rows, fileName }) {
+  const escape = (val) => {
+    const str = val == null ? "" : String(val);
+    // Wrap in quotes if it contains a comma, quote, or newline
+    return /[",\n]/.test(str) ? `"${str.replace(/"/g, '""')}"` : str;
+  };
+
+  const header = columns.map((col) => escape(col.header)).join(",");
+  const body = rows
+    .map((row) => columns.map((col) => escape(row[col.key])).join(","))
+    .join("\n");
+
+  const csv = `${header}\n${body}`;
+  const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = fileName || "export.csv";
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
 export function generateTablePdf({ title, columns, rows, fileName }) {
   // Landscape A4 to better fit wide tables
   const doc = new jsPDF("l", "mm", "a4");
@@ -348,94 +374,163 @@ export function generateBaptismCertificatePdf(record) {
 }
 
 // ============================================================
-// MARRIAGE CERTIFICATE
+// MARRIAGE CERTIFICATE  (single-page, two-column layout)
 // ============================================================
 export function generateMarriageCertificatePdf(record) {
   const { doc, pageWidth, pageHeight, margin } = createCertificateDoc("Marriage Certificate");
 
-  const labelX = margin + 3;
-  const labelWidth = 60;
-  const totalWidth = pageWidth - 2 * margin - 6;
-  const valueWidth = totalWidth - labelWidth;
-
   const formatDate = (d) => d ? new Date(d).toLocaleDateString("en-GB") : "";
+  const safe = (v) => v == null ? "" : String(v);
   const regNo = record.reg_no || "";
+
+  // Layout constants — tighter to fit one page
+  const lineH = 5;
+  const pad = 2;
+  const labelX = margin + 3;
+  const totalWidth = pageWidth - 2 * margin - 6; // ~174mm on A4
+  const colWidth = totalWidth / 2;               // ~87mm per column
+  const labelW = 36;                             // label cell within each col
+  const valueW = colWidth - labelW;              // value cell within each col
 
   let y = 44;
 
-  const checkPage = () => { if (y > pageHeight - 40) { doc.addPage(); y = 20; } };
+  // ── helpers ───────────────────────────────────────────────
 
-  // Reg No
-  y += drawTableRow(doc, { y, labelX, labelWidth, valueWidth, label: "Reg. No.", value: regNo });
+  // Full-width label | value row (for Reg.No + marriage details)
+  const drawFull = (label, value) => {
+    y += drawTableRow(doc, {
+      y, labelX,
+      labelWidth: labelW,
+      valueWidth: totalWidth - labelW,
+      label, value,
+      lineHeight: lineH, padding: pad,
+    });
+  };
 
-  // ---- Groom Section ----
-  checkPage();
-  y += drawSectionHeader(doc, { y, labelX, totalWidth, text: "GROOM" });
+  // Full-width section header
+  const drawFullHeader = (text) => {
+    const rowH = lineH + 2 * pad;
+    doc.setFillColor(235, 222, 205);
+    doc.rect(labelX, y, totalWidth, rowH, "F");
+    doc.setDrawColor(160, 130, 100);
+    doc.setLineWidth(0.25);
+    doc.rect(labelX, y, totalWidth, rowH);
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(11);
+    doc.text(text, labelX + totalWidth / 2, y + pad + 4, { align: "center" });
+    y += rowH;
+  };
 
-  const groomFields = [
-    ["Name", record.spouse1_name],
-    ["Address", record.spouse1_address],
-    ["City & District", record.spouse1_city_district],
-    ["State & Country", record.spouse1_state_country],
-    ["Father's Name", record.spouse1_father_name],
-    ["Mother's Name", record.spouse1_mother_name],
-    ["Name of Parish", record.spouse1_home_parish],
+  // Two-column row: groom field on left, bride field on right
+  const drawDual = (label1, value1, label2, value2) => {
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(9);
+    const l1 = doc.splitTextToSize(label1, labelW - 2 * pad);
+    const l2 = doc.splitTextToSize(label2, labelW - 2 * pad);
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(9);
+    const v1 = doc.splitTextToSize(safe(value1), valueW - 2 * pad);
+    const v2 = doc.splitTextToSize(safe(value2), valueW - 2 * pad);
+
+    const maxLines = Math.max(l1.length, l2.length, v1.length, v2.length, 1);
+    const rowH = maxLines * lineH + 2 * pad;
+
+    const rx = labelX + colWidth; // right-column start
+
+    // Fills
+    doc.setFillColor(248, 243, 235);
+    doc.rect(labelX, y, labelW, rowH, "F");
+    doc.rect(rx, y, labelW, rowH, "F");
+
+    // Borders
+    doc.setDrawColor(160, 130, 100);
+    doc.setLineWidth(0.25);
+    doc.rect(labelX, y, labelW, rowH);
+    doc.rect(labelX + labelW, y, valueW, rowH);
+    doc.rect(rx, y, labelW, rowH);
+    doc.rect(rx + labelW, y, valueW, rowH);
+
+    // Text — labels bold
+    const ty = y + pad + 3;
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(9);
+    l1.forEach((ln, i) => doc.text(ln, labelX + pad, ty + i * lineH));
+    l2.forEach((ln, i) => doc.text(ln, rx + pad, ty + i * lineH));
+
+    // Text — values normal
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(9);
+    v1.forEach((ln, i) => doc.text(ln, labelX + labelW + pad, ty + i * lineH));
+    v2.forEach((ln, i) => doc.text(ln, rx + labelW + pad, ty + i * lineH));
+
+    y += rowH;
+  };
+
+  // Side-by-side section headers: GROOM | BRIDE
+  const drawDualHeader = (left, right) => {
+    const rowH = lineH + 2 * pad;
+    const rx = labelX + colWidth;
+    doc.setFillColor(235, 222, 205);
+    doc.rect(labelX, y, colWidth, rowH, "F");
+    doc.rect(rx, y, colWidth, rowH, "F");
+    doc.setDrawColor(160, 130, 100);
+    doc.setLineWidth(0.25);
+    doc.rect(labelX, y, colWidth, rowH);
+    doc.rect(rx, y, colWidth, rowH);
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(11);
+    doc.text(left, labelX + colWidth / 2, y + pad + 4, { align: "center" });
+    doc.text(right, rx + colWidth / 2, y + pad + 4, { align: "center" });
+    y += rowH;
+  };
+
+  // ── content ───────────────────────────────────────────────
+
+  // Reg. No. (full width)
+  drawFull("Reg. No.", regNo);
+
+  // GROOM | BRIDE column headers
+  drawDualHeader("GROOM", "BRIDE");
+
+  // 7 paired rows
+  const pairFields = [
+    ["Name", record.spouse1_name, "Name", record.spouse2_name],
+    ["Address", record.spouse1_address, "Address", record.spouse2_address],
+    ["City & District", record.spouse1_city_district, "City & District", record.spouse2_city_district],
+    ["State & Country", record.spouse1_state_country, "State & Country", record.spouse2_state_country],
+    ["Father's Name", record.spouse1_father_name, "Father's Name", record.spouse2_father_name],
+    ["Mother's Name", record.spouse1_mother_name, "Mother's Name", record.spouse2_mother_name],
+    ["Name of Parish", record.spouse1_home_parish, "Name of Parish", record.spouse2_home_parish],
   ];
-  groomFields.forEach(([label, value]) => {
-    checkPage();
-    y += drawTableRow(doc, { y, labelX, labelWidth, valueWidth, label, value });
-  });
+  pairFields.forEach(([l1, v1, l2, v2]) => drawDual(l1, v1, l2, v2));
 
-  // ---- Bride Section ----
-  checkPage();
-  y += drawSectionHeader(doc, { y, labelX, totalWidth, text: "BRIDE" });
+  // Marriage details (full width)
+  drawFullHeader("MARRIAGE DETAILS");
+  drawFull("Date of Marriage", formatDate(record.date));
+  drawFull("Place of Marriage", record.place);
+  drawFull("Solemnized By", record.solemnized_by);
 
-  const brideFields = [
-    ["Name", record.spouse2_name],
-    ["Address", record.spouse2_address],
-    ["City & District", record.spouse2_city_district],
-    ["State & Country", record.spouse2_state_country],
-    ["Father's Name", record.spouse2_father_name],
-    ["Mother's Name", record.spouse2_mother_name],
-    ["Name of Parish", record.spouse2_home_parish],
-  ];
-  brideFields.forEach(([label, value]) => {
-    checkPage();
-    y += drawTableRow(doc, { y, labelX, labelWidth, valueWidth, label, value });
-  });
-
-  // ---- Marriage Details ----
-  checkPage();
-  y += drawSectionHeader(doc, { y, labelX, totalWidth, text: "MARRIAGE DETAILS" });
-
-  checkPage();
-  y += drawTableRow(doc, { y, labelX, labelWidth, valueWidth, label: "Date of Marriage", value: formatDate(record.date) });
-  checkPage();
-  y += drawTableRow(doc, { y, labelX, labelWidth, valueWidth, label: "Place of Marriage", value: record.place });
-  checkPage();
-  y += drawTableRow(doc, { y, labelX, labelWidth, valueWidth, label: "Solemnized By", value: record.solemnized_by });
-
-  if (y > pageHeight - 50) { doc.addPage(); y = 20; }
-
-  y += 15; // extra gap after table
-  const certText = "Certified that the above marriage was solemnised according to the rites of the Church and is a true extract from the marriage register.";
+  // ── footer ────────────────────────────────────────────────
+  y += 10;
+  const certText =
+    "Certified that the above marriage was solemnised according to the rites of the Church and is a true extract from the marriage register.";
   doc.setFont("helvetica", "italic");
-  doc.setFontSize(10);
-  const lines = doc.splitTextToSize(certText, pageWidth - 2 * margin - 10);
-  doc.text(lines, margin + 5, y);
-  y += lines.length * 6 + 14;
+  doc.setFontSize(9);
+  const certLines = doc.splitTextToSize(certText, pageWidth - 2 * margin - 10);
+  doc.text(certLines, margin + 5, y);
+  y += certLines.length * 5 + 12;
 
   doc.setFont("helvetica", "normal");
-  doc.setFontSize(10);
+  doc.setFontSize(9);
   const today = new Date().toLocaleDateString("en-GB");
   doc.text(`Date: ${today}`, margin + 5, y);
 
   doc.setDrawColor(100, 80, 60);
   doc.setLineWidth(0.4);
-  doc.line(pageWidth - margin - 60, y + 12, pageWidth - margin - 5, y + 12);
+  doc.line(pageWidth - margin - 60, y + 10, pageWidth - margin - 5, y + 10);
   doc.setFont("helvetica", "bold");
   doc.setFontSize(10);
-  doc.text("Vicar", pageWidth - margin - 33, y + 18, { align: "center" });
+  doc.text("Vicar", pageWidth - margin - 33, y + 16, { align: "center" });
 
   doc.save(`marriage_certificate_${regNo || "record"}.pdf`);
 }

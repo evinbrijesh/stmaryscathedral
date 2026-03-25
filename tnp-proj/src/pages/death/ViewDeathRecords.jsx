@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../../css/viewdeath.css";
-import { generateTablePdf, generateDeathCertificatePdf } from "../../utils/pdfExport";
+import { generateTablePdf, generateDeathCertificatePdf, downloadCsv } from "../../utils/pdfExport";
 
 const ViewDeathRecords = () => {
 
@@ -199,6 +199,55 @@ const ViewDeathRecords = () => {
             }}
           >
             Download PDF
+          </button>
+
+          <button
+            type="button"
+            className="submit-btn"
+            style={{ background: "#2e7d32" }}
+            onClick={() => {
+              const columns = [
+                { key: "regNo", header: "Reg.No." },
+                { key: "status", header: "Status" },
+                { key: "familyNo", header: "Family No" },
+                { key: "block", header: "Block" },
+                { key: "unit", header: "Unit" },
+                { key: "name", header: "Name" },
+                { key: "houseName", header: "House Name" },
+                { key: "addressPlace", header: "Address/Place" },
+                { key: "fatherHusbandName", header: "Father/Husband Name" },
+                { key: "motherWifeName", header: "Mother/Wife Name" },
+                { key: "deathDate", header: "Death Date" },
+                { key: "burialDate", header: "Burial Date" },
+                { key: "age", header: "Age" },
+                { key: "conductedBy", header: "Conducted by" },
+                { key: "causeOfDeath", header: "Cause of Death" },
+                { key: "cellNo", header: "Cell No" },
+                { key: "remarks", header: "Remarks" },
+              ];
+              const rows = filteredRecords.map((rec) => ({
+                regNo: rec.reg_no || "-",
+                status: rec.isParishioner === false ? "Non-Parishioner" : "Parishioner",
+                familyNo: rec.family_no || "-",
+                block: rec.block || "-",
+                unit: rec.unit || "-",
+                name: rec.name,
+                houseName: rec.house_name || "-",
+                addressPlace: rec.address_place || "-",
+                fatherHusbandName: rec.father_husband_name || "-",
+                motherWifeName: rec.mother_wife_name || "-",
+                deathDate: rec.death_date ? new Date(rec.death_date).toLocaleDateString("en-IN") : "-",
+                burialDate: rec.burial_date ? new Date(rec.burial_date).toLocaleDateString("en-IN") : "-",
+                age: rec.age || "-",
+                conductedBy: rec.conducted_by || "-",
+                causeOfDeath: rec.cause_of_death || "-",
+                cellNo: rec.cell_no || "-",
+                remarks: rec.remarks || "-",
+              }));
+              downloadCsv({ columns, rows, fileName: "death_records.csv" });
+            }}
+          >
+            Download CSV
           </button>
         </div>
       </div>
